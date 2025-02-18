@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Koki - Restaurant Food Laravel Admin Dashboard | Page Login</title>
+    <title>Login</title>
     <meta name="description" content="Some description for the page" />
     <link rel="icon" type="image/png" sizes="16x16" href="public/images/favicon.png">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
@@ -26,11 +26,13 @@
                                         @csrf
                                         <div class="form-group">
                                             <label class="mb-1"><strong>Email</strong></label>
-                                            <input type="email" name="email" class="form-control">
+                                            <input type="email" name="email" class="form-control"
+                                                value="manajement@gmail.com">
                                         </div>
                                         <div class="form-group">
                                             <label class="mb-1"><strong>Password</strong></label>
-                                            <input type="password" name="password" class="form-control">
+                                            <input type="password" name="password" class="form-control"
+                                                value="testingPass">
                                         </div>
                                         <div class="form-row d-flex justify-content-between mt-4 mb-2">
                                             {{-- <div class="form-group">
@@ -42,7 +44,8 @@
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Don't have an account? <a class="text-primary" href="page-register.html">Sign
+                                        <p>Don't have an account? <a class="text-primary"
+                                                href="{{ route('auth.register.index') }}">Sign
                                                 up</a></p>
                                     </div>
                                 </div>
