@@ -17,20 +17,22 @@ class DatabaseSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Manajement',
+                'nama' => 'Manajement',
+                'username' => 'manajement',
                 'email' => 'manajement@gmail.com',
                 'password' => Hash::make('testingPass'),
                 'role' => 1
             ],
             [
-                'name' => 'Staff',
+                'nama' => 'Staff',
+                'username' => 'staff',
                 'email' => 'staff@gmail.com',
                 'password' => Hash::make('testingPass'),
                 'role' => 2
             ],
         ];
         foreach ($users as $user) {
-            User::factory()->create($user);
+            User::create($user);
         }
     }
 }

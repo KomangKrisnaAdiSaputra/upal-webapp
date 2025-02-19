@@ -28,20 +28,11 @@ class AuthController extends Controller
     // POST
     function login(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('username', $request->username)->first();
 
-        if ($user && Auth::attempt($request->only('email', 'password'))) {
-            $user = auth()->user();
-            if (auth()->user()->status == 0) {
-                session()->flash('error', 'Akun Anda Sudah Tidak Aktif!');
-                return redirect()->route('auth.login.index');
-            } elseif (auth()->user()->status == 1 && (auth()->user()->role == 1 || auth()->user()->role == 2)) {
-                session()->flash('success', 'Login Sukses!');
-                return redirect()->route('dashboard.index');
-            } elseif (auth()->user()->status == 2) {
-                session()->flash('error', 'Akun Anda Belum Di Verifikasi!');
-                return redirect()->route('auth.login.index');
-            }
+        if ($user && Auth::attempt($request->only('username', 'password'))) {
+            session()->flash('success', 'Login Sukses!');
+            return redirect()->route('dashboard.index');
         }
 
         session()->flash('error', 'Email Atau Password Salah!');
@@ -50,17 +41,17 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        if (User::where('email', $request->email)->first()) {
-            session()->flash('error', 'Email Sudah Digunakan!');
+        if (User::where('username', $request->username)->first()) {
+            session()->flash('error', 'Username Sudah Digunakan!');
             return redirect()->route('auth.register.index');
         }
 
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'kontak' => $request->kontak,
             'password' => Hash::make($request->password),
             'role' => 2,
-            'status' => 1
         ]);
         return redirect()->route('auth.login.index');
     }

@@ -25,9 +25,9 @@
                                     <form action="{{ route('auth.login.post') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <label class="mb-1"><strong>Email</strong></label>
-                                            <input type="email" name="email" class="form-control"
-                                                value="manajement@gmail.com">
+                                            <label class="mb-1"><strong>Username</strong></label>
+                                            <input type="text" name="username" class="form-control"
+                                                value="manajement">
                                         </div>
                                         <div class="form-group">
                                             <label class="mb-1"><strong>Password</strong></label>

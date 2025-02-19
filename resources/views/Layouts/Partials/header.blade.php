@@ -24,7 +24,7 @@
                         <a class="nav-link" href="javascript:;" role="button" data-toggle="dropdown">
                             <div class="header-info">
                                 <small>{{ $greeting }}</small>
-                                <span>{{ auth()?->user()?->name ?? '' }}</span>
+                                <span>{{ auth()?->user()?->nama ?? '' }}</span>
                             </div>
                             <img src="{{ asset('assets/images/avatar/1.png') }}" width="20" alt=""
                                 loading="lazy" />

@@ -26,19 +26,24 @@
                                     <form action="{{ route('auth.register.post') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <label class="mb-1"><strong>Name</strong></label>
-                                            <input type="text" class="form-control" placeholder="name"
-                                                name="name">
+                                            <label class="mb-1"><strong>Nama</strong></label>
+                                            <input type="text" class="form-control" placeholder="Nama" name="nama"
+                                                required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="mb-1"><strong>Email</strong></label>
-                                            <input type="email" class="form-control" placeholder="hello@example.com"
-                                                name="email">
+                                            <label class="mb-1"><strong>Username</strong></label>
+                                            <input type="text" class="form-control" placeholder="Username"
+                                                name="username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mb-1"><strong>Kontak</strong></label>
+                                            <input type="number" class="form-control" placeholder="Kontak"
+                                                name="kontak" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="mb-1"><strong>Password</strong></label>
                                             <input type="password" class="form-control" placeholder="Password"
-                                                name="password">
+                                                name="password" required>
                                         </div>
                                         <div class="text-center mt-4">
                                             <button type="submit" class="btn btn-primary btn-block">Sign me up</button>
