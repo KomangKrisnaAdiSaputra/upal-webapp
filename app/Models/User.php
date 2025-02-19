@@ -51,8 +51,20 @@ class User extends Authenticatable
         'id' => 'string'
     ];
 
+    protected $appends = [
+        'role_str',
+    ];
+
     public function utilitas()
     {
         return $this->hasMany(Utilitas::class, 'id_user', 'id');
+    }
+
+    function getRoleStrAttribute()
+    {
+        $role_str = "";
+        if ($this->role == 1) $role_str = "Manajemen";
+        if ($this->role == 2) $role_str = "Operator";
+        return $role_str;
     }
 }
