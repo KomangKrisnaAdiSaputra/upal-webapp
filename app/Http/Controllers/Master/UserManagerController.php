@@ -53,7 +53,6 @@ class UserManagerController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
             $route = isset($request->id) && $request->id ? 'master.usermanager.edit.index' : 'master.usermanager.create.index';
             return redirect()->route($route);
         }

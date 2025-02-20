@@ -16,13 +16,11 @@ class Customer extends Model
         'nama',
         'catatan',
         'status',
-        'role',
-        'status',
     ];
 
     protected $casts = [
         'id' => 'string',
-        'status' => 'bolean'
+        'status' => 'boolean'
     ];
 
     public function utilitas()
