@@ -41,7 +41,7 @@ class UserManagerController extends Controller
                 'jabatan' => $request->jabatan
             ];
 
-            if (isset($request->password) && $request->password != "") $user['password'] = Hash::make($request->password);
+            if (isset($request->password) && $request->password != "") $data_user['password'] = Hash::make($request->password);
 
             if (isset($request->id) && $request->id) {
                 $user = User::find($request->id);

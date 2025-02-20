@@ -10,6 +10,9 @@ class Utilitas extends Model
 {
     use HasFactory, HasUuids;
 
+    public const STATUS_MENUNGGU = "MENUNGGU";
+    public const STATUS_VALIDASI = "VALIDASI";
+
     protected $fillable = [
         'id',
         'id_customer',

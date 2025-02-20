@@ -1,10 +1,6 @@
 @extends('layouts.main')
 @section('title', 'User Manager')
 
-@section('css')
-    <link href="{{ asset('assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-
 @section('data')
     <div class="col-12">
         <div class="card">
@@ -51,9 +47,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/plugins-init/datatables.init.js') }}" type="text/javascript"></script>
 @endsection

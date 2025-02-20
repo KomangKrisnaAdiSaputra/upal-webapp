@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', $user?->id ?? null ? 'Edit Data' : 'Tambah Data')
+@section('title', $customer?->id ?? null ? 'Edit Data' : 'Tambah Data')
 
 @section('data')
     <div class="col-lg-12 flex justify-center items-center min-h-screen">

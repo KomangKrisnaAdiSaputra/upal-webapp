@@ -7,6 +7,12 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li class="{{ request()->is('pengecekkan') ? 'mm-active' : '' }}" style="padding-bottom: 10px;">
+                <a href="{{ route('pengecekkan') }}" class="ai-icon" aria-expanded="false">
+                    <i class="flaticon-381-settings-2"></i>
+                    <span class="nav-text">Pengecekkan</span>
+                </a>
+            </li>
             <li class="{{ Str::startsWith(request()->path(), 'master/') ? 'mm-active' : '' }}">
                 <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-controls-3"></i>
