@@ -13,7 +13,7 @@ class UserManagerController extends Controller
 {
     function index()
     {
-        $users = User::get();
+        $users = User::whereNot("id", auth()->user()->id)->get();
         return view("Master.UserManager.index", compact('users'));
     }
 

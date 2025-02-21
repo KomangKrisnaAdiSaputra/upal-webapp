@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Utilitas;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,9 +15,11 @@ class PengecekkanController extends Controller
         return view("Pengecekkan.index");
     }
 
-    function getTabel()
+    function getTabel(Request $request)
     {
-        $datas = Utilitas::where('id_user', auth()->user()->id)->get();
+        $tanggal = $request->tanggal ?? Carbon::today()->toDateString();
+        $datas = Utilitas::where('id_user', auth()->user()->id)->where('tanggal', $tanggal)->get();
+
         return view("Pengecekkan.Partials.tabel", compact('datas'));
     }
 
@@ -42,7 +45,7 @@ class PengecekkanController extends Controller
                 'id_user' => auth()->user()->id,
                 'jenis' => $request->jenis,
                 'satuan' => $request->satuan,
-                'tanggal' => $request->tanggal,
+                'tanggal' => Carbon::today()->toDateString(),
                 'nilai' => $request->nilai,
                 'status' => Utilitas::STATUS_MENUNGGU
             ];
@@ -57,7 +60,6 @@ class PengecekkanController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
             $route = isset($request->id) && $request->id ? 'pengecekkan.edit.index' : 'pengecekkan.create.index';
             return redirect()->route($route);
         }

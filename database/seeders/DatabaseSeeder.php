@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        // Create User
         $users = [
             [
                 'nama' => 'Manajement',
@@ -33,6 +36,23 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($users as $user) {
             User::create($user);
+        }
+        // End Create User
+
+        $groups = [
+            [
+                'jalur' => 'Jalur Golf',
+                'type' => 'Internal',
+                'status' => 1
+            ],
+            [
+                'jalur' => 'Jalur Cycle',
+                'type' => 'Eksterna;',
+                'status' => 1
+            ],
+        ];
+        foreach ($groups as $group) {
+            Group::create($group);
         }
     }
 }

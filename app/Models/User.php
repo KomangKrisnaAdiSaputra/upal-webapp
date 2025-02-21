@@ -14,7 +14,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
-    protected $table = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +56,7 @@ class User extends Authenticatable
 
     public function utilitas()
     {
-        return $this->hasMany(Utilitas::class, 'id_user', 'id');
+        return $this->hasMany(Utilitas::class, 'user_id', 'id');
     }
 
     function getRoleStrAttribute()

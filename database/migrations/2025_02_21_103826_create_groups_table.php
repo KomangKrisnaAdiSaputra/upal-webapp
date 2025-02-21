@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('utilitas', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('customer_id');
-            $table->uuid('user_id');
+            $table->string('jalur');
             $table->string('type');
-            $table->date('tanggal');
-            $table->integer('nilai');
-            $table->text('keterangan')->nullable();
-            $table->string('status');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('utilitas');
+        Schema::dropIfExists('groups');
     }
 };

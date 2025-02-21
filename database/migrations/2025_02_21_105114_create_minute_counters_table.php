@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('utilitas', function (Blueprint $table) {
+        Schema::create('minute_counters', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('customer_id');
             $table->uuid('user_id');
             $table->string('type');
-            $table->date('tanggal');
-            $table->integer('nilai');
+            $table->string('lokasi');
+            $table->string('sub_lokasi');
+            $table->string('pompa_terpasang');
+            $table->time('jam');
+            $table->double('nilai');
+            $table->boolean('volume');
+            $table->boolean('ampere');
             $table->text('keterangan')->nullable();
-            $table->string('status');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('utilitas');
+        Schema::dropIfExists('minute_counters');
     }
 };

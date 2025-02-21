@@ -19,6 +19,11 @@
                     <span class="nav-text">Master</span>
                 </a>
                 <ul aria-expanded="false">
+                    <li class="{{ Str::startsWith(request()->path(), 'master/group/') ? 'mm-active' : '' }}">
+                        <a href="{{ route('master.group') }}">
+                            Group
+                        </a>
+                    </li>
                     <li class="{{ Str::startsWith(request()->path(), 'master/customer/') ? 'mm-active' : '' }}">
                         <a href="{{ route('master.customer') }}">
                             Customer
