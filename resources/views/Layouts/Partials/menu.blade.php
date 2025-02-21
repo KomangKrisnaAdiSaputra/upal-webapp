@@ -13,6 +13,24 @@
                     <span class="nav-text">Pengecekkan</span>
                 </a>
             </li>
+            <li class="{{ Str::startsWith(request()->path(), 'pencatatan/') ? 'mm-active' : '' }}">
+                <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-controls-3"></i>
+                    <span class="nav-text">Pencatatan</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airlimbah') ? 'mm-active' : '' }}">
+                        <a href="{{ route('pencatatan.mc.airlimbah') }}">
+                            Minute Counter Air Limbah
+                        </a>
+                    </li>
+                    <li class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airirigasi') ? 'mm-active' : '' }}">
+                        <a href="{{ route('pencatatan.mc.airirigasi') }}">
+                            Minute Counter Air Irigasi
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="{{ Str::startsWith(request()->path(), 'master/') ? 'mm-active' : '' }}">
                 <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-controls-3"></i>

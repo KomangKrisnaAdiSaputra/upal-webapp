@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('volume');
             $table->boolean('ampere');
             $table->text('keterangan')->nullable();
+            $table->date('tanggal');
             $table->timestamps();
         });
     }

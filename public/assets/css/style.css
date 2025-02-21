@@ -16145,7 +16145,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     .metismenu
     > li
     .has-arrow:after {
-    right: 3.125rem;
+    right: 2.025rem !important;
 }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nav-header {
     width: 5rem;
