@@ -21,6 +21,15 @@
         type="text/css" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <style>
+        .custom-disabled {
+            pointer-events: none;
+            opacity: 0.5;
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+
     @yield('css')
 </head>
 

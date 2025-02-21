@@ -30,4 +30,9 @@ class Customer extends Model
     {
         return $this->hasMany(Utilitas::class, 'customer_id', 'id');
     }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id');
+    }
 }

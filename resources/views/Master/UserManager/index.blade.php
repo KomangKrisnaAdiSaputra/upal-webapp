@@ -11,7 +11,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="example3" class="display" style="min-width: 845px">
+                    <table id="example3" class="display text-center" style="min-width: 845px">
                         <thead>
                             <tr>
                                 <th>Nama</th>
@@ -33,7 +33,7 @@
                                     <td>{{ $user->kontak }}</td>
                                     <td>{{ $user->role_str }}</td>
                                     <td>
-                                        <div class="d-flex">
+                                        <div class="d-flex justify-content-center">
                                             <a href="{{ route('master.usermanager.edit.index', $user->id) }}"
                                                 class="btn btn-primary shadow btn-xs sharp mr-1"><i
                                                     class="fa fa-pencil"></i></a>
