@@ -28,7 +28,8 @@
                             <!-- Tanggal Input Section -->
                             <div class="flex items-center space-x-2">
                                 <label class="form-label text-sm font-medium" for="Tanggal">Tanggal</label>
-                                <input type="date" name="" id=""
+                                <input type="date" name="date_filter"
+                                    value="{{ Carbon\Carbon::today()->toDateString() }}"
                                     class="form-input py-2 px-3 border rounded-md">
                             </div>
 
@@ -56,8 +57,10 @@
             tabel();
         });
 
-        function tabel() {
-            $.get("{{ route('pencatatan.mc.airlimbah.gettabel') }}", {}, function(data, status) {
+        function tabel(date = null) {
+            $.get("{{ route('pencatatan.mc.airlimbah.gettabel') }}", {
+                date
+            }, function(data, status) {
                 $('#data-tabel').html(data);
             });
         }
@@ -66,24 +69,25 @@
             e.preventDefault();
             const formData = new FormData(this);
             const body = [];
+            let date = "";
             const buttonClicked = e.originalEvent.submitter; // To ensure compatibility across browsers
             const actionType = buttonClicked.getAttribute("data-cek");
 
-            console.log(actionType);
-
-
             if (actionType === "getdata") {
+                formData.forEach((value, key) => {
+                    if (key == "date_filter") date = value;
+                });
+                tabel(date);
 
-            } else if (actionType === "savedata") {}
-            formData.forEach((value, key) => {
-                body[key] = value;
-            });
+            } else if (actionType === "savedata") {
+                formData.forEach((value, key) => {
+                    body[key] = value;
+                });
 
-            $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
-                ...body
-            }, function(data, status) {
-                console.log(data);
-            });
+                $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
+                    ...body
+                }, function(data, status) {});
+            }
         });
 
         // document.getElementById("form_air_limbah").addEventListener("submit", function(event) {

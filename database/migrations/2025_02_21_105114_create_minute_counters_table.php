@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('minute_counters', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id');
+            $table->uuid('user_id')->nullable();
             $table->string('type');
             $table->string('lokasi');
             $table->string('sub_lokasi');

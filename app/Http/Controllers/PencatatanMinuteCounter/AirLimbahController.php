@@ -34,7 +34,6 @@ class AirLimbahController extends Controller
 
     function index()
     {
-
         return view("PencatatanMinuteCounter.AirLimbah.index");
     }
 
@@ -102,9 +101,9 @@ class AirLimbahController extends Controller
         $yesterday = Carbon::parse($date)->subDay()->toDateString();
 
         $air_limbah_datas = MinuteCounter::with(["user"])->where("type", MinuteCounter::TYPE_AIR_LIMBAH)
-            ->where("user_id", auth()->user()->id)->where("tanggal", $date)->get();
+            ->where("tanggal", $date)->get();
         $air_limbah_olds = MinuteCounter::with(["user"])->where("type", MinuteCounter::TYPE_AIR_LIMBAH)
-            ->where("user_id", auth()->user()->id)->where("tanggal", $yesterday)->get();
+            ->where("tanggal", $yesterday)->get();
 
         $datas = collect();
 
@@ -125,7 +124,7 @@ class AirLimbahController extends Controller
                     'nilai_sebelumnya' => $old?->nilai ?? "",
                     'volume' => $al_data->volume,
                     'ampere' => $al_data->ampere,
-                    'user' => $al_data->user->nama,
+                    'user' => $al_data->user?->nama ?? "",
                     'keterangan' => $al_data->keterangan,
                 ]));
             }
@@ -133,13 +132,21 @@ class AirLimbahController extends Controller
             foreach ($this->enums as $key => $enum) {
                 for ($i = 0; $i < $enum->loop; $i++) {
                     $lokasi = "LPS " . $key + 1;
+                    $sub_lokasi = "Pompa " . $i + 1;
+                    $pompa_terpasang = $enum->loop_datas[$i];
+
+                    $old = $air_limbah_olds->where("lokasi", $lokasi)
+                        ->where("sub_lokasi", $sub_lokasi)
+                        ->where("pompa_terpasang", $pompa_terpasang)
+                        ->first();
+
                     $datas->push(convertToObject([
                         'lokasi' => $lokasi,
-                        'sub_lokasi' => "Pompa " . $i + 1,
-                        'pompa_terpasang' => $enum->loop_datas[$i],
+                        'sub_lokasi' => $sub_lokasi,
+                        'pompa_terpasang' => $pompa_terpasang,
                         'pukul' => "",
                         'nilai_terakhir' => "",
-                        'nilai_sebelumnya' => "",
+                        'nilai_sebelumnya' => $old?->nilai ?? "",
                         'volume' => true,
                         'ampere' => true,
                         'user' => null,
