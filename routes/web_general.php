@@ -28,12 +28,13 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix("airlimbah")->name(".airlimbah")->controller(AirLimbahController::class)->group((function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
-
       Route::post("savedata", "saveData")->name('.savedata.post');
     }));
 
     Route::prefix("airirigasi")->name(".airirigasi")->controller(AirIrigasiController::class)->group((function () {
       Route::get("/", "index");
+      Route::get("gettabel", "getTabel")->name('.gettabel');
+      Route::post("savedata", "saveData")->name('.savedata.post');
     }));
   });
 

@@ -88,7 +88,6 @@ class AirLimbahController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
             return response()->json([], 500);
         }
 

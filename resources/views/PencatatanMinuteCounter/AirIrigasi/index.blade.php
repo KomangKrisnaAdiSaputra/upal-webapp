@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Pencatatan Minute Counter Air Limbah')
+@section('title', 'Pencatatan Minute Counter Air Irigasi')
 
 @section('css')
     <style>
@@ -19,7 +19,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Data Air Limbah</h4>
+                <h4 class="card-title">Data Air Irigasi</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -58,7 +58,7 @@
         });
 
         function tabel(date = null) {
-            $.get("{{ route('pencatatan.mc.airlimbah.gettabel') }}", {
+            $.get("{{ route('pencatatan.mc.airirigasi.gettabel') }}", {
                 date
             }, function(data, status) {
                 $('#data-tabel').html(data);
@@ -84,7 +84,7 @@
                     body[key] = value;
                 });
 
-                $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
+                $.post("{{ route('pencatatan.mc.airirigasi.savedata.post') }}", {
                     ...body
                 }, function(data, status) {});
             }

@@ -120,5 +120,36 @@ class DatabaseSeeder extends Seeder
             }
         }
         // End Minute Air Limbah
+
+        // Minute Air Irigasi
+        $enums = convertToObject([
+            [
+                'loop' => 4,
+                'loop_datas' => ['RG.01', 'RG.02', null, null]
+            ],
+            [
+                'loop' => 3,
+                'loop_datas' => ['RS.01', 'RS.2', null]
+            ],
+        ]);
+        foreach ($dates as $date) {
+            foreach ($enums as $key => $enum) {
+                for ($i = 0; $i < $enum->loop; $i++) {
+                    $lokasi = $key > 0 ? "POMPA ST. REGIS" : "POMPA GOLF";
+                    MinuteCounter::create([
+                        'type' => MinuteCounter::TYPE_AIR_IRIGASI,
+                        'lokasi' => $lokasi,
+                        'sub_lokasi' => "Pompa " . $i + 1,
+                        'pompa_terpasang' => $enum->loop_datas[$i],
+                        'jam' => "06:30",
+                        'nilai' => number_format(mt_rand(1000, 9999) + mt_rand(0, 99) / 100, 2, '.', ''),
+                        'volume' => true,
+                        'ampere' => true,
+                        'tanggal' => $date
+                    ]);
+                }
+            }
+        }
+        // End Minute Air Irigasi
     }
 }
