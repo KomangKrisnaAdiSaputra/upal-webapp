@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('type');
             $table->string('lokasi');
             $table->string('sub_lokasi');
-            $table->string('pompa_terpasang');
-            $table->time('jam');
-            $table->double('nilai');
+            $table->string('pompa_terpasang')->nullable();
+            $table->time('jam')->nullable();
+            $table->double('nilai')->nullable();
             $table->boolean('volume');
             $table->boolean('ampere');
             $table->text('keterangan')->nullable();

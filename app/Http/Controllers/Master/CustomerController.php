@@ -55,7 +55,6 @@ class CustomerController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
             $route = isset($request->id) && $request->id ? 'master.customer.edit.index' : 'master.customer.create.index';
             return redirect()->route($route);
         }

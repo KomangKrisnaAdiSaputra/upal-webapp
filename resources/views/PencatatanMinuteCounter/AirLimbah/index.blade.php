@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <form action="#">
+                    <form action="#" id="form_air_limbah">
                         <div class="flex items-center space-x-4 mb-6">
                             <!-- Tanggal Input Section -->
                             <div class="flex items-center space-x-2">
@@ -41,82 +41,7 @@
                             </div>
                         </div>
 
-                        <table class="table table-responsive-sm text-center min-w-full table-auto">
-                            <thead class="bg-gray-100">
-                                <tr class="text-center text-sm">
-                                    <th class="align-middle p-2" rowspan="2">Lokasi</th>
-                                    <th class="align-middle p-2" rowspan="2" style="width: 12%;">Sub Lokasi</th>
-                                    <th class="align-middle p-2" rowspan="2">Pompa Terpasang</th>
-                                    <th class="align-middle p-2" rowspan="2">Pukul</th>
-                                    <th colspan="2" class="p-2">Minute Counter</th>
-                                    <th colspan="2" class="p-2">Vol</th>
-                                    <th colspan="2" class="p-2">Ampere</th>
-                                    <th class="align-middle p-2" rowspan="2">Petugas</th>
-                                    <th class="align-middle p-2" rowspan="2" style="width: 15%;">Keterangan</th>
-                                </tr>
-                                <tr class="text-center text-sm">
-                                    <th class="p-2" style="width: 20%;">Terakhir</th>
-                                    <th class="p-2" style="width: 20%;">Sebelumnya</th>
-                                    <th class="p-2" style="width: 5%;">Normal</th>
-                                    <th class="p-2" style="width: 5%;">Tidak Normal</th>
-                                    <th class="p-2" style="width: 5%;">Normal</th>
-                                    <th class="p-2" style="width: 5%;">Tidak Normal</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm">
-                                @foreach ($datas as $key => $data)
-                                    <tr class="border-b hover:bg-gray-50">
-                                        @if ($key == 0)
-                                            <td rowspan="4" class="p-2">{{ $data->lokasi }}</td>
-                                        @elseif ($key == 4 || $key == 7)
-                                            <td rowspan="3" class="p-2">{{ $data->lokasi }}</td>
-                                        @endif
-                                        <td class="p-2">{{ $data->sub_lokasi }}</td>
-                                        <td class="p-2">{{ $data->pompa_terpasang }}</td>
-                                        <td class="p-2">
-                                            <input type="time" class="form-control form-control-sm w-24">
-                                        </td>
-                                        <td class="p-2">
-                                            <input type="number" class="form-control form-control-sm w-24 text-right"
-                                                name="nilai">
-                                        </td>
-                                        <td class="p-2 text-right">{{ $data->nilai_sebelumnya }}</td>
-                                        <td class="p-2">
-                                            <div class="custom-control custom-checkbox checkbox-primary check-xl">
-                                                <input type="checkbox" class="custom-control-input" checked
-                                                    id="volume_normal">
-                                                <label class="custom-control-label" for="volume_normal"></label>
-                                            </div>
-                                        </td>
-                                        <td class="p-2">
-                                            <div class="custom-control custom-checkbox checkbox-danger check-xl">
-                                                <input type="checkbox" class="custom-control-input" checked
-                                                    id="volume_tnormal">
-                                                <label class="custom-control-label" for="volume_tnormal"></label>
-                                            </div>
-                                        </td>
-                                        <td class="p-2">
-                                            <div class="custom-control custom-checkbox checkbox-primary check-xl">
-                                                <input type="checkbox" class="custom-control-input" checked
-                                                    id="ampere_normal">
-                                                <label class="custom-control-label" for="ampere_normal"></label>
-                                            </div>
-                                        </td>
-                                        <td class="p-2">
-                                            <div class="custom-control custom-checkbox checkbox-danger check-xl">
-                                                <input type="checkbox" class="custom-control-input" checked
-                                                    id="ampere_tnormal">
-                                                <label class="custom-control-label" for="ampere_tnormal"></label>
-                                            </div>
-                                        </td>
-                                        <td class="p-2" style="font-size: 12px;">I Komang Krisna Adi Saputra</td>
-                                        <td class="p-2">
-                                            <textarea class="form-control form-control-sm" placeholder=""></textarea>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div id="data-tabel" />
                     </form>
                 </div>
 
@@ -127,59 +52,77 @@
 
 @section('js')
     <script>
-        // Menangani event submit
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Mencegah form untuk submit secara default
+        $(document).ready(function() {
+            tabel();
+        });
 
-            // Ambil tanggal dari input type date
-            const tanggal = document.querySelector('input[type="date"]').value;
+        function tabel() {
+            $.get("{{ route('pencatatan.mc.airlimbah.gettabel') }}", {}, function(data, status) {
+                $('#data-tabel').html(data);
+            });
+        }
 
-            // Ambil semua baris tabel
-            const rows = document.querySelectorAll('tbody tr');
-            const tableData = [];
+        $("#form_air_limbah").submit(function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const body = [];
+            const buttonClicked = e.originalEvent.submitter; // To ensure compatibility across browsers
+            const actionType = buttonClicked.getAttribute("data-cek");
 
-            rows.forEach(row => {
-                // Ambil data dalam setiap baris tabel
-                const lokasi = row.querySelector('td:nth-child(1)').textContent;
-                const subLokasi = row.querySelector('td:nth-child(2)').textContent;
-                const pompaTerpasang = row.querySelector('td:nth-child(3)').textContent;
-                const waktu = row.querySelector('input[type="time"]').value;
-                const terahir = row.querySelector('td:nth-child(5) input[type="number"]')?.value ?? "";
-                const sebelumnya = row.querySelector('td:nth-child(6)').textContent;
-                const volumeNormal = row.querySelector('input#volume_normal').checked;
-                const volumeTnormal = row.querySelector('input#volume_tnormal').checked;
-                const ampereNormal = row.querySelector('input#ampere_normal').checked;
-                const ampereTnormal = row.querySelector('input#ampere_tnormal').checked;
-                const petugas = row.querySelector('td:nth-child(10)').textContent;
-                const keterangan = row.querySelector('textarea').value;
+            console.log(actionType);
 
-                // Masukkan data baris ke dalam array
-                tableData.push({
-                    lokasi,
-                    subLokasi,
-                    pompaTerpasang,
-                    waktu,
-                    terahir,
-                    sebelumnya,
-                    volumeNormal,
-                    volumeTnormal,
-                    ampereNormal,
-                    ampereTnormal,
-                    petugas,
-                    keterangan
-                });
+
+            if (actionType === "getdata") {
+
+            } else if (actionType === "savedata") {}
+            formData.forEach((value, key) => {
+                body[key] = value;
             });
 
-            // Kirim data ke server atau tampilkan di console
-            const formData = {
-                tanggal,
-                tableData
-            };
-
-            console.log(formData); // Atau gunakan AJAX untuk mengirimkan formData ke server
-
-            // Anda dapat menggunakan fetch atau AJAX di sini untuk mengirim formData ke backend
+            $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
+                ...body
+            }, function(data, status) {
+                console.log(data);
+            });
         });
+
+        // document.getElementById("form_air_limbah").addEventListener("submit", function(event) {
+        //     event.preventDefault(); 
+        //     const buttonClicked = event.submitter; 
+        //     const actionType = buttonClicked.getAttribute("data-cek");// Ambil atribut data-cek
+
+        //     const formData = [];
+        //     const rows = document.querySelectorAll("tbody tr");
+
+        //     if (actionType === "getdata") {
+
+        //     } else if (actionType === "savedata") {
+        //         rows.forEach(row => {
+        //             const data = {
+        //                 lokasi: row.querySelector('input[name="lokasi"]')?.value || "",
+        //                 sub_lokasi: row.querySelector('input[name="sub_lokasi"]')?.value || "",
+        //                 pompa_terpasang: row.querySelector('input[name="pompa_terpasang"]')?.value ||
+        //                     "",
+        //                 pukul: row.querySelector('input[name="pukul"]')?.value || "",
+        //                 nilai: row.querySelector('input[name="nilai"]')?.value || "",
+        //                 nilai_sebelumnya: row.querySelector('input[name="nilai_sebelumnya"]')?.value ||
+        //                     "",
+        //                 volume: row.querySelector('#volume_normal')?.checked || false,
+        //                 ampere: row.querySelector('input[name="ampere"]')?.checked || false,
+        //                 petugas: row.cells[row.cells.length - 2]?.textContent.trim() || "",
+        //                 keterangan: row.querySelector('textarea[name="keterangan"]')?.value || ""
+        //             };
+
+        //             formData.push(data);
+        //         });
+
+        //         $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
+        //             datas: formData
+        //         }, function(data, status) {
+        //             console.log(data);
+        //         });
+        //     }
+        // });
     </script>
 
 @endsection

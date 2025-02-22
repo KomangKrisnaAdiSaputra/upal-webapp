@@ -32,4 +32,9 @@ class MinuteCounter extends Model
         'volume' => 'boolean',
         'ampere' => 'boolean'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
