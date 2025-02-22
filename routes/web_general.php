@@ -6,7 +6,8 @@ use App\Http\Controllers\Master\GroupController;
 use App\Http\Controllers\Master\UserManagerController;
 use App\Http\Controllers\PencatatanMinuteCounter\AirIrigasiController;
 use App\Http\Controllers\PencatatanMinuteCounter\AirLimbahController;
-use App\Http\Controllers\PengecekkanController;
+use App\Http\Controllers\Pengecekkan\AirIrigasiController as PengecekkanAirIrigasiController;
+use App\Http\Controllers\Pengecekkan\AirLimbahController as PengecekkanAirLimbahController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -15,15 +16,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get("dashboard", "index")->name('dashboard.index');
   });
 
-  Route::prefix('pengecekkan')->name('pengecekkan')->controller(PengecekkanController::class)->group(function () {
-    Route::get("/", "index");
-    Route::get("gettabel", "getTabel")->name('.gettabel');
-    Route::get("create", "create")->name('.create.index');
-    Route::get("edit/{id}", "edit")->name('.edit.index');
-    Route::post("savedata", "saveData")->name('.savedata.post');
+  Route::prefix('pengecekkan')->name('pengecekkan')->group(function () {
+
+    Route::prefix("airlimbah")->name(".airlimbah")->controller(PengecekkanAirLimbahController::class)->group(function () {
+      Route::get("/", "index");
+      Route::get("gettabel", "getTabel")->name('.gettabel');
+      Route::get("form", "form")->name('.form');
+
+      Route::post("savedata", "saveData")->name('.savedata.post');
+    });
+
+    Route::prefix("airirigasi")->name(".airirigasi")->controller(PengecekkanAirIrigasiController::class)->group(function () {
+      Route::get("/", "index");
+      Route::get("gettabel", "getTabel")->name('.gettabel');
+      Route::get("create", "create")->name('.create.index');
+      Route::get("edit/{id}", "edit")->name('.edit.index');
+      Route::post("savedata", "saveData")->name('.savedata.post');
+    });
   });
 
-  Route::prefix('pencatatan/mc')->name('pencatatan.mc')->controller(PengecekkanController::class)->group(function () {
+  Route::prefix('pencatatan/mc')->name('pencatatan.mc')->group(function () {
 
     Route::prefix("airlimbah")->name(".airlimbah")->controller(AirLimbahController::class)->group((function () {
       Route::get("/", "index");

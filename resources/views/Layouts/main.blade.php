@@ -71,6 +71,24 @@
         </div>
     </div>
 
+    <!-- Modal  -->
+    <div class="modal fade" id="Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn btn-close btn-close-modal" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        {{-- <i class="fa fa-times" style="color: black !important;"></i> --}}
+                    </button>
+                </div>
+                <div class="modal-body" id="data_modal">
+                </div>
+            </div>
+        </div>
+    </div>{{-- End Modal   --}}
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('assets/vendor/global/global.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/custom.min.js') }}" type="text/javascript"></script>
@@ -86,6 +104,26 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function Modal(href, size, title) {
+            $.get(href, {}, function(data, status) {
+                $("#data_modal").html(data);
+                var modal = $("#Modal").modal('show');
+
+                if (modal.find('.modal-dialog').hasClass("modal-md")) {
+                    modal.find('.modal-dialog').removeClass("modal-md");
+                } else if (modal.find('.modal-dialog').hasClass("modal-sm")) {
+                    modal.find('.modal-dialog').removeClass("modal-sm")
+                } else if (modal.find('.modal-dialog').hasClass("modal-lg")) {
+                    modal.find('.modal-dialog').removeClass("modal-lg")
+                } else if (modal.find('.modal-dialog').hasClass("modal-xl")) {
+                    modal.find('.modal-dialog').removeClass("modal-xl")
+                }
+
+                modal.find('.modal-dialog').addClass(size);
+                modal.find('.modal-title').html(title);
+            });
+        }
     </script>
     @yield('js')
 </body>
