@@ -4,11 +4,23 @@
 @section('data')
     <div class="col-12">
         <div class="flex items-center space-x-4 mb-6">
-            <form action="#" id="form_air_limbah">
-                <div class="flex items-center space-x-2">
-                    <label class="form-label text-sm font-medium" for="Tanggal">Tanggal</label>
-                    <input type="date" name="date_filter" value="{{ Carbon\Carbon::today()->toDateString() }}"
-                        class="form-input py-2 px-3 border rounded-md">
+            <form action="#" id="form-filter">
+                <div class="flex col-md-6 items-center space-x-2">
+                    <label class="form-label text-sm font-medium" for="date">Bulan</label>
+                    <select name="date" id="date" class="form-control">
+                        <option value="">-- Pilih Bulan --</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            @php
+                                $monthValue = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                $selected = $monthValue == date('m') ? 'selected' : ''; // Menandai bulan saat ini
+                            @endphp
+                            <option value="{{ date('Y') . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) . '-01' }}"
+                                {{ $selected }}>
+                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                        @endfor
+                    </select>
+
                 </div>
 
                 <div class="flex space-x-4">
@@ -20,7 +32,7 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h4 class="card-title">Data Air Limbah</h4>
-                <a href="javascript:void()" class="btn btn-rounded btn-primary"
+                <a href="#" class="btn btn-rounded btn-primary"
                     onclick="Modal('{{ route('pengecekkan.airlimbah.form') }}', 'modal-lg', 'Tambah Data')">
                     Tambah Data
                 </a>
@@ -48,29 +60,9 @@
             });
         }
 
-        // $("#form_air_limbah").submit(function(e) {
-        //     e.preventDefault();
-        //     const formData = new FormData(this);
-        //     const body = [];
-        //     let date = "";
-        //     const buttonClicked = e.originalEvent.submitter; // To ensure compatibility across browsers
-        //     const actionType = buttonClicked.getAttribute("data-cek");
-
-        //     if (actionType === "getdata") {
-        //         formData.forEach((value, key) => {
-        //             if (key == "date_filter") date = value;
-        //         });
-        //         tabel(date);
-
-        //     } else if (actionType === "savedata") {
-        //         formData.forEach((value, key) => {
-        //             body[key] = value;
-        //         });
-
-        //         $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
-        //             ...body
-        //         }, function(data, status) {});
-        //     }
-        // });
+        $("#form-filter").submit(function(e) {
+            e.preventDefault();
+            tabel($("#date").val());
+        });
     </script>
 @endsection

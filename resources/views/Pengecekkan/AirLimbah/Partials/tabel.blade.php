@@ -15,11 +15,25 @@
         </tr>
     </thead>
     <tbody class="text-sm">
-        <tr>
-            @for ($i = 0; $i < 8; $i++)
-                <td>{{ $i }}</td>
-            @endfor
-        </tr>
+        @foreach ($datas as $data)
+            <tr>
+                <td>{{ $loop->index + 1 }}</td>
+                <td>{{ $data->customer->nama }}</td>
+                <td>{{ $data->customer->group->type }}</td>
+                <td class="text-right">{{ $data->customer->harga_air_limbah ?? 0 }}</td>
+                <td class="text-right">{{ $data->customer->harga_air_irigasi ?? 0 }}</td>
+                <td>{{ $data->customer->penanganan_air_limbah }}</td>
+                <td class="text-right">{{ $data->customer->nilai_str . ': ' . $data->nilai }}</td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <a href="#"
+                            class="btn btn-primary shadow btn-xs sharp mr-1"onclick="Modal('{{ route('pengecekkan.airlimbah.form', ['id' => $data->id]) }}', 'modal-lg', 'Edit Data')">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
     </tbody>
 </table>
 <script>

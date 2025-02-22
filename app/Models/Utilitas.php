@@ -13,30 +13,33 @@ class Utilitas extends Model
     public const STATUS_MENUNGGU = "MENUNGGU";
     public const STATUS_VALIDASI = "VALIDASI";
 
+    public const TYPE_AIR_LIMBAH = "AIR_LIMBAH";
+    public const TYPE_AIR_IRIGASI = "AIR_IRIGASI";
+
     protected $fillable = [
         'id',
-        'id_customer',
-        'id_user',
-        'jenis',
-        'satuan',
+        'customer_id',
+        'user_id',
+        'type',
         'tanggal',
         'nilai',
+        'keterangan',
         'status',
     ];
 
     protected $casts = [
         'id' => 'string',
-        'id_customer' => 'string',
-        'id_user' => 'string',
+        'customer_id' => 'string',
+        'user_id' => 'string',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'id_customer');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }
