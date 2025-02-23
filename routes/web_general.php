@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DasboardController;
 use App\Http\Controllers\Laporan\AirLimbahController as LaporanAirLimbahController;
+use App\Http\Controllers\Laporan\AirIrigasiController as LaporanAirIrigasiController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\GroupController;
 use App\Http\Controllers\Master\UserManagerController;
@@ -26,12 +27,12 @@ Route::middleware(['auth'])->group(function () {
       Route::post("savedata", "saveData")->name('.savedata.post');
     });
 
-    // Route::prefix("airirigasi")->name(".airirigasi")->controller(PengecekkanAirIrigasiController::class)->group(function () {
-    //   Route::get("/", "index");
-    //   Route::get("gettabel", "getTabel")->name('.gettabel');
-    //   Route::get("form", "form")->name('.form');
-    //   Route::post("savedata", "saveData")->name('.savedata.post');
-    // });
+    Route::prefix("airirigasi")->name(".airirigasi")->controller(LaporanAirIrigasiController::class)->group(function () {
+      Route::get("/", "index");
+      Route::get("gettabel", "getTabel")->name('.gettabel');
+      Route::get("form", "form")->name('.form');
+      Route::post("savedata", "saveData")->name('.savedata.post');
+    });
   });
 
   Route::prefix('pengecekkan')->name('pengecekkan')->group(function () {

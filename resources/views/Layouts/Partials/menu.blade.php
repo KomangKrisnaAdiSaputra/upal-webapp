@@ -22,11 +22,11 @@
                             Air Limbah
                         </a>
                     </li>
-                    {{-- <li class="{{ Str::startsWith(request()->path(), 'laporan/airirigasi') ? 'custom-active' : '' }}">
+                    <li class="{{ Str::startsWith(request()->path(), 'laporan/airirigasi') ? 'custom-active' : '' }}">
                         <a href="{{ route('laporan.airirigasi') }}">
                             Air Irigasi
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </li>
             <li class="{{ Str::startsWith(request()->path(), 'pengecekkan/') ? 'mm-active' : '' }}">

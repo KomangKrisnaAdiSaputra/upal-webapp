@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Laporan Air Limbah')
+@section('title', 'Laporan Air Irigasi')
 
 @section('data')
     <div class="col-12">
@@ -28,7 +28,7 @@
         </form>
         <div class="card mt-4">
             <div class="card-header">
-                <h4 class="card-title">Data Air Limbah</h4>
+                <h4 class="card-title">Data Air Irigasi</h4>
             </div>
             <div class="card-body">
 
@@ -48,7 +48,7 @@
         function tabel(body = {}) {
             $('#data-tabel').html(spinner());
 
-            $.get("{{ route('laporan.airlimbah.gettabel') }}", {
+            $.get("{{ route('laporan.airirigasi.gettabel') }}", {
                 ...body
             }, function(data, status) {
                 setTimeout(() => {
@@ -63,6 +63,7 @@
                 tanggal_awal: $("#tanggal_awal").val(),
                 tanggal_akhir: $("#tanggal_akhir").val(),
             };
+
             let errorMessage = $("#error_message");
             let tglAwal = new Date(body.tanggal_awal);
             let tglAkhir = new Date(body.tanggal_akhir);
@@ -72,6 +73,7 @@
             if (tglAwal.getFullYear() !== tglAkhir.getFullYear() || tglAwal.getMonth() !== tglAkhir.getMonth()) {
                 return errorMessage.html("Tanggal awal dan akhir harus dalam bulan dan tahun yang sama.");
             }
+
             tabel(body);
         });
     </script>
