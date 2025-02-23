@@ -22,15 +22,13 @@ Route::middleware(['auth'])->group(function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');
-
       Route::post("savedata", "saveData")->name('.savedata.post');
     });
 
     Route::prefix("airirigasi")->name(".airirigasi")->controller(PengecekkanAirIrigasiController::class)->group(function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
-      Route::get("create", "create")->name('.create.index');
-      Route::get("edit/{id}", "edit")->name('.edit.index');
+      Route::get("form", "form")->name('.form');
       Route::post("savedata", "saveData")->name('.savedata.post');
     });
   });
