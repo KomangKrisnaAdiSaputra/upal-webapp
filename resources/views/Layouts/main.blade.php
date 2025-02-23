@@ -22,6 +22,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
         rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flaticon@3.0.0/font/flaticon.css" rel="stylesheet" />
+
+
     <style>
         .custom-disabled {
             pointer-events: none;
@@ -124,6 +127,16 @@
                 modal.find('.modal-dialog').addClass(size);
                 modal.find('.modal-title').html(title);
             });
+        }
+
+        function spinner(color = "text-primary", width = "3rem", height = "3rem") {
+            return `
+                <div id="loading-spinner" class="d-flex justify-content-center" style="display: none;">
+                    <div class="spinner-border ${color}" role="status" style="width: ${width}; height: ${height};">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `;
         }
     </script>
     @yield('js')

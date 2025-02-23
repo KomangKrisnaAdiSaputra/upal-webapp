@@ -24,21 +24,27 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <form action="#" id="form_air_limbah">
-                        <div class="flex items-center space-x-4 mb-6">
+                        <div class="d-flex align-items-center mb-4">
                             <!-- Tanggal Input Section -->
-                            <div class="flex items-center space-x-2">
-                                <label class="form-label text-sm font-medium" for="Tanggal">Tanggal</label>
+                            <div class="d-flex align-items-center me-4">
+                                <label for="Tanggal" class="form-label me-2">Tanggal</label>
                                 <input type="date" name="date_filter"
                                     value="{{ Carbon\Carbon::today()->toDateString() }}"
-                                    class="form-input py-2 px-3 border rounded-md">
+                                    class="form-control py-2 px-3 border rounded-3">
                             </div>
 
                             <!-- Button Group -->
-                            <div class="flex space-x-4">
+                            <div class="d-flex gap-3">
                                 <button type="submit" data-cek="getdata"
-                                    class="btn btn-primary py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600">Tampilkan</button>
+                                    class="btn btn-primary py-2 px-4 rounded-3 hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary">
+                                    Tampilkan
+                                </button>
                                 <button type="submit" data-cek="savedata"
-                                    class="btn btn-secondary py-2 px-6 bg-green-500 text-white rounded-md hover:bg-green-600">Simpan</button>
+                                    class="flex btn btn-success py-2 px-4 rounded-3 hover:bg-success focus:outline-none focus:ring-2 focus:ring-success"
+                                    style="display: flex;">
+                                    <span>Simpan</span>
+                                    <span id="btn-simpan" style="margin: 2px 0 0 5px;" />
+                                </button>
                             </div>
                         </div>
 
@@ -58,10 +64,14 @@
         });
 
         function tabel(date = null) {
+            $('#data-tabel').html(spinner());
+
             $.get("{{ route('pencatatan.mc.airirigasi.gettabel') }}", {
                 date
             }, function(data, status) {
-                $('#data-tabel').html(data);
+                setTimeout(() => {
+                    $('#data-tabel').html(data);
+                }, 1000);
             });
         }
 
@@ -84,9 +94,15 @@
                     body[key] = value;
                 });
 
+                $("#btn-simpan").html(spinner("text-white", "1rem", "1rem"));
+
                 $.post("{{ route('pencatatan.mc.airirigasi.savedata.post') }}", {
                     ...body
-                }, function(data, status) {});
+                }, function(data, status) {
+                    setTimeout(() => {
+                        $("#btn-simpan").html("");
+                    }, 1000);
+                });
             }
         });
     </script>

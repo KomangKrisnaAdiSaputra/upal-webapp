@@ -3,20 +3,23 @@
 
 @section('data')
     <div class="col-12">
-        <div class="flex items-center space-x-4 mb-6">
-            <form action="#" id="form-filter">
-                <div class="flex col-md-6 items-center space-x-2">
-                    <label class="form-label text-sm font-medium" for="date">Bulan</label>
+        <form action="#" id="form-filter" class="p-4 bg-white shadow rounded">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <label class="form-label fw-medium" for="date">Tanggal</label>
                     <input type="date" id="date" value="{{ Carbon\Carbon::today()->toDateString() }}"
-                        class="form-input py-2 px-3 border rounded-md">
+                        class="form-control py-2 px-3 border rounded-md">
                 </div>
 
-                <div class="flex space-x-4">
-                    <button type="submit"
-                        class="btn btn-primary py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600">Tampilkan</button>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Tampilkan
+                    </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+
+
         <div class="card mt-4">
             <div class="card-header">
                 <h4 class="card-title">Data Air Irigasi</h4>
@@ -41,10 +44,14 @@
         });
 
         function tabel(date = null) {
+            $('#data-tabel').html(spinner());
+
             $.get("{{ route('pengecekkan.airirigasi.gettabel') }}", {
                 date
             }, function(data, status) {
-                $('#data-tabel').html(data);
+                setTimeout(() => {
+                    $('#data-tabel').html(data);
+                }, 1000);
             });
         }
 

@@ -1,6 +1,19 @@
 @extends('layouts.main')
 @section('title', $customer?->id ?? null ? 'Edit Data' : 'Tambah Data')
 
+@section('css')
+    <style>
+        .select2-container--bootstrap-5 .select2-selection {
+            min-height: calc(2.4em + .77rem + 3px) !important;
+            border-radius: 0.65rem !important;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+            line-height: 2.5 !important;
+        }
+    </style>
+@endsection
+
 @section('data')
     <div class="col-lg-12 flex justify-center items-center min-h-screen">
         <div class="card w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
@@ -101,11 +114,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row flex">
-                            <div class="col-lg-8 ml-auto">
-                                <a href="{{ route('master.customer') }}" class="btn btn-danger">Kembali</a>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                        <div class="col-lg-8">
+                            <a href="{{ route('master.customer') }}" class="btn btn-danger">Kembali</a>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -120,7 +131,8 @@
         $(document).ready(function() {
             $('.select2').select2({
                 placeholder: "Pilih Data",
-                allowClear: true
+                allowClear: true,
+                theme: "bootstrap-5"
             });
         });
 

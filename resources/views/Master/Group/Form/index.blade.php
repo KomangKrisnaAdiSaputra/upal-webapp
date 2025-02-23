@@ -45,11 +45,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row flex">
-                            <div class="col-lg-8 ml-auto">
-                                <a href="{{ route('master.group') }}" class="btn btn-danger">Kembali</a>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                        <div class="col-lg-8">
+                            <a href="{{ route('master.group') }}" class="btn btn-danger">Kembali</a>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
