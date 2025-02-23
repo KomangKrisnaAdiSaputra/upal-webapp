@@ -37,25 +37,27 @@ class AirLimbahController extends Controller
     {
         DB::beginTransaction();
         try {
-            $data = [
-                'customer_id' => $request->customer_id,
-                'user_id' => auth()->user()->id,
-                'type' => Utilitas::TYPE_AIR_LIMBAH,
-                'nilai' => $request->nilai,
-            ];
-
             if (isset($request->id) && $request->id != "") {
                 $utilitas = Utilitas::find($request->id);
-                $utilitas->update($data);
+                $utilitas->update([
+                    'user_id' => auth()->user()->id,
+                    'nilai' => (float)$request->nilai,
+                ]);
             } else {
-                $data['status'] = Utilitas::STATUS_MENUNGGU;
-                $data['tanggal'] = Carbon::now()->startOfMonth()->toDateString();
-                $utilitas = Utilitas::create($data);
+                $utilitas = Utilitas::create([
+                    'customer_id' => $request->customer_id,
+                    'user_id' => auth()->user()->id,
+                    'nilai' => (float)$request->nilai,
+                    'type' => Utilitas::TYPE_AIR_LIMBAH,
+                    'status' => Utilitas::STATUS_MENUNGGU,
+                    'tanggal' => Carbon::now()->startOfMonth()->toDateString()
+                ]);
             }
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            dd($th->getMessage());
             return response()->json([], 500);
         }
 

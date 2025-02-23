@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->string('type');
             $table->date('tanggal');
-            $table->integer('nilai');
+            $table->bigInteger('nilai');
             $table->text('keterangan')->nullable();
             $table->string('status');
             $table->timestamps();

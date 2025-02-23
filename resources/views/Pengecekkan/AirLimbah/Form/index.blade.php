@@ -1,3 +1,13 @@
+<style>
+    .select2-container--bootstrap-5 .select2-selection {
+        min-height: calc(2.4em + .77rem + 3px) !important;
+        border-radius: 0.65rem !important;
+    }
+
+    .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+        line-height: 2.5 !important;
+    }
+</style>
 <div class="basic-form">
     <form id="form-utilitas">
         <div class="form-row">
@@ -5,18 +15,24 @@
                 <label>Customer</label>
                 <input type="hidden" value='{{ json_encode($customers) }}' id="data_customers">
                 <input type="hidden" value='{{ $data?->id ?? '' }}' name="id">
-                <select name="customer_id" class="form-control select2" onchange="getCustomer(this.value)"
-                    {{ isset($data->id) ? 'disabled' : '' }}>
-                    <option value="">-- Pilih Customer --</option>
-                    @foreach ($customers as $val)
-                        @if ((!$data?->id && count($val->utilitas) == 0) || $data?->id)
-                            <option value="{{ $val->id }}"
-                                {{ ($data?->customer_id ?? '') == $val['id'] ? 'selected' : '' }}>
-                                {{ $val->nama }}
-                            </option>
-                        @endif
-                    @endforeach
-                </select>
+                @if (isset($data->id) && $data->id != '')
+                    <input type="hidden" value='{{ $data?->customer_id ?? '' }}' name="customer_id">
+                    <input type="text" class="form-control" value='{{ $data?->customer?->nama ?? '' }}' disabled>
+                @else
+                    <select name="customer_id" class="select2" onchange="getCustomer(this.value)"
+                        {{ isset($data->id) ? 'disabled' : '' }}>
+                        <option value="">-- Pilih Customer --</option>
+                        @foreach ($customers as $val)
+                            @if ((!$data?->id && count($val->utilitas) == 0) || $data?->id)
+                                <option value="{{ $val->id }}"
+                                    {{ ($data?->customer_id ?? '') == $val->id ? 'selected' : '' }}>
+                                    {{ $val->nama }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                @endif
+
             </div>
             <div class="form-group col-md-6">
                 <label>Tipe</label>
@@ -60,7 +76,8 @@
     $(document).ready(function() {
         $('.select2').select2({
             placeholder: "Pilih Customer",
-            allowClear: true
+            allowClear: true,
+            theme: "bootstrap-5"
         });
     });
 
@@ -116,10 +133,12 @@
                             </td>
                         </tr>
                     `);
+                } else {
+                    $(`#nilai_${body.id}`).html(`${customer.nilai_str}: ${body.nilai}`);
                 }
-
-                $('#Modal').modal('hide');
             }
+
+            $('#Modal').modal('hide');
         });
     });
 </script>

@@ -23,7 +23,9 @@
                 <td class="text-right">{{ $data->customer->harga_air_limbah ?? 0 }}</td>
                 <td class="text-right">{{ $data->customer->harga_air_irigasi ?? 0 }}</td>
                 <td>{{ $data->customer->penanganan_air_limbah }}</td>
-                <td class="text-right">{{ $data->customer->nilai_str . ': ' . $data->nilai }}</td>
+                <td class="text-right" id="nilai_{{ $data->id }}">
+                    {{ $data->customer->nilai_str . ': ' . $data->nilai }}
+                </td>
                 <td>
                     <div class="d-flex justify-content-center">
                         <a href="#"
