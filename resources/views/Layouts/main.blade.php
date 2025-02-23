@@ -32,6 +32,10 @@
             background-color: #ccc;
             cursor: not-allowed;
         }
+
+        .custom-active a {
+            color: #fff !important;
+        }
     </style>
 
     @yield('css')

@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Str;
+
+@endphp
 <div class="deznav">
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
@@ -13,12 +17,12 @@
                     <span class="nav-text">Laporan</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li class="{{ Str::startsWith(request()->path(), 'laporan/airlimbah') ? 'mm-active' : '' }}">
+                    <li class="{{ Str::startsWith(request()->path(), 'laporan/airlimbah') ? 'custom-active' : '' }}">
                         <a href="{{ route('laporan.airlimbah') }}">
                             Air Limbah
                         </a>
                     </li>
-                    {{-- <li class="{{ Str::startsWith(request()->path(), 'laporan/airirigasi') ? 'mm-active' : '' }}">
+                    {{-- <li class="{{ Str::startsWith(request()->path(), 'laporan/airirigasi') ? 'custom-active' : '' }}">
                         <a href="{{ route('laporan.airirigasi') }}">
                             Air Irigasi
                         </a>
@@ -31,12 +35,14 @@
                     <span class="nav-text">Pengecekkan</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li class="{{ Str::startsWith(request()->path(), 'pengecekkan/airlimbah') ? 'mm-active' : '' }}">
+                    <li
+                        class="{{ Str::startsWith(request()->path(), 'pengecekkan/airlimbah') ? 'custom-active' : '' }}">
                         <a href="{{ route('pengecekkan.airlimbah') }}">
                             Air Limbah
                         </a>
                     </li>
-                    <li class="{{ Str::startsWith(request()->path(), 'pengecekkan/airirigasi') ? 'mm-active' : '' }}">
+                    <li
+                        class="{{ Str::startsWith(request()->path(), 'pengecekkan/airirigasi') ? 'custom-active' : '' }}">
                         <a href="{{ route('pengecekkan.airirigasi') }}">
                             Air Irigasi
                         </a>
@@ -49,13 +55,14 @@
                     <span class="nav-text">Pencatatan</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airlimbah') ? 'mm-active' : '' }}">
+                    <li
+                        class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airlimbah') ? 'custom-active' : '' }}">
                         <a href="{{ route('pencatatan.mc.airlimbah') }}">
                             Minute Counter Air Limbah
                         </a>
                     </li>
                     <li
-                        class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airirigasi') ? 'mm-active' : '' }}">
+                        class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airirigasi') ? 'custom-active' : '' }}">
                         <a href="{{ route('pencatatan.mc.airirigasi') }}">
                             Minute Counter Air Irigasi
                         </a>
@@ -68,17 +75,17 @@
                     <span class="nav-text">Master</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li class="{{ Str::startsWith(request()->path(), 'master/group/') ? 'mm-active' : '' }}">
+                    <li class="{{ Str::startsWith(request()->path(), 'master/group/') ? 'custom-active' : '' }}">
                         <a href="{{ route('master.group') }}">
                             Group
                         </a>
                     </li>
-                    <li class="{{ Str::startsWith(request()->path(), 'master/customer/') ? 'mm-active' : '' }}">
+                    <li class="{{ Str::startsWith(request()->path(), 'master/customer/') ? 'custom-active' : '' }}">
                         <a href="{{ route('master.customer') }}">
                             Customer
                         </a>
                     </li>
-                    <li class="{{ Str::startsWith(request()->path(), 'master/usermanager/') ? 'mm-active' : '' }}">
+                    <li class="{{ Str::startsWith(request()->path(), 'master/usermanager/') ? 'custom-active' : '' }}">
                         <a href="{{ route('master.usermanager') }}">
                             User Manager
                         </a>
@@ -86,11 +93,5 @@
                 </ul>
             </li>
         </ul>
-
-        {{-- <div class="copyright">
-          <p class="fs-14 font-w200"><strong class="font-w400">Koki Restaurant Admin Dashboard</strong> ©
-              2020 All Rights Reserved</p>
-          <p>Made with <i class="fa fa-heart"></i> by DexignZone</p>
-      </div> --}}
     </div>
 </div>
