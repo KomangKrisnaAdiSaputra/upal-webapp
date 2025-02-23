@@ -101,6 +101,7 @@ class AirLimbahController extends Controller
 
         $air_limbah_datas = MinuteCounter::with(["user"])->where("type", MinuteCounter::TYPE_AIR_LIMBAH)
             ->where("tanggal", $date)->get();
+
         $air_limbah_olds = MinuteCounter::with(["user"])->where("type", MinuteCounter::TYPE_AIR_LIMBAH)
             ->where("tanggal", $yesterday)->get();
 

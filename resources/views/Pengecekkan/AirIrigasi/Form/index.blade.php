@@ -84,7 +84,7 @@
         const customer = customers.filter((item) => (item.id === val))[0] ?? null;
         const nilai_terakhir = $("#nilai_terakhir").val();
 
-        const nilai_sebelumnya = customer?.utilitas?.filter((item) => (item.tanggal == yesterday))[0] ?? 0;
+        const nilai_sebelumnya = customer?.utilitas?.filter((item) => (item.tanggal == yesterday))[0]?.nilai ?? 0;
 
         $("#nilai_sebelumnya").val(nilai_sebelumnya);
         $("#pemakaian").val(nilai_terakhir - nilai_sebelumnya);

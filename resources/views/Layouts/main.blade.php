@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Koki - Restaurant Food Laravel Admin Dashboard | Dashboard</title>
+    <title>SI Upal || @yield('title')</title>
     <meta name="description" content="Some description for the page" />
 
     <link rel="icon" type="image/png" sizes="16x16" href="public/images/favicon.png">
@@ -38,10 +38,10 @@
     <div id="main-wrapper">
         <div class="nav-header">
             <a href="index.html" class="brand-logo">
-                <img class="logo-abbr" src="{{ asset('assets/images/logo.png') }}" alt="" loading="lazy">
-                <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt=""
+                {{-- <img class="logo-abbr" src="{{ asset('assets/images/logo.png') }}" alt="" loading="lazy"> --}}
+                {{-- <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt=""
                     loading="lazy">
-                <img class="brand-title" src="{{ asset('assets/images/logo-text.png') }}" alt="" loading="lazy">
+                <img class="brand-title" src="{{ asset('assets/images/logo-text.png') }}" alt="" loading="lazy"> --}}
             </a>
             <div class="nav-control">
                 <div class="hamburger">
