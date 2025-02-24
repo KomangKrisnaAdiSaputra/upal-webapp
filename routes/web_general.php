@@ -24,22 +24,22 @@ Route::middleware(['auth'])->group(function () {
     Route::post("save", "save")->name('profile.save.post');
   });
 
-  Route::prefix('laporan')->name('laporan')->group(function () {
+  // Route::prefix('laporan')->name('laporan')->group(function () {
 
-    Route::prefix("airlimbah")->name(".airlimbah")->controller(LaporanAirLimbahController::class)->group(function () {
-      Route::get("/", "index");
-      Route::get("gettabel", "getTabel")->name('.gettabel');
-      Route::get("form", "form")->name('.form');
-      Route::post("savedata", "saveData")->name('.savedata.post');
-    });
+  //   Route::prefix("airlimbah")->name(".airlimbah")->controller(LaporanAirLimbahController::class)->group(function () {
+  //     Route::get("/", "index");
+  //     Route::get("gettabel", "getTabel")->name('.gettabel');
+  //     Route::get("form", "form")->name('.form');
+  //     Route::post("savedata", "saveData")->name('.savedata.post');
+  //   });
 
-    Route::prefix("airirigasi")->name(".airirigasi")->controller(LaporanAirIrigasiController::class)->group(function () {
-      Route::get("/", "index");
-      Route::get("gettabel", "getTabel")->name('.gettabel');
-      Route::get("form", "form")->name('.form');
-      Route::post("savedata", "saveData")->name('.savedata.post');
-    });
-  });
+  //   Route::prefix("airirigasi")->name(".airirigasi")->controller(LaporanAirIrigasiController::class)->group(function () {
+  //     Route::get("/", "index");
+  //     Route::get("gettabel", "getTabel")->name('.gettabel');
+  //     Route::get("form", "form")->name('.form');
+  //     Route::post("savedata", "saveData")->name('.savedata.post');
+  //   });
+  // });
 
   Route::prefix('pengecekkan')->name('pengecekkan')->group(function () {
 
@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');
+      Route::get("pdf/{date}", "pdf")->name('.pdf');
       Route::post("savedata", "saveData")->name('.savedata.post');
     });
   });

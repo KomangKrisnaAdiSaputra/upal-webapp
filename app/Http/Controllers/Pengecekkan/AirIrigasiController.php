@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengecekkan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Group;
 use App\Models\Utilitas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,6 +44,57 @@ class AirIrigasiController extends Controller
         return view("Pengecekkan.AirIrigasi.Partials.tabel", compact('datas'));
     }
 
+    function pdf(Request $request, $date)
+    {
+        $yesterday = Carbon::parse($date)->subDay()->toDateString();
+        $firstdate = Carbon::parse($date)->startOfMonth()->toDateString();
+        dd($firstdate);
+        $datas = collect();
+        $total_data = collect();
+        $groups = Group::where("status", 1)->get();
+
+        foreach ($groups as $group) {
+            $_datas = collect();
+            $_utilitas = $this->getUtilitas($date, $yesterday, $group->id);
+            $utilitas = $_utilitas->where("tanggal", $date)->values();
+
+            foreach ($utilitas as $val) {
+                $old = $_utilitas->where("user_id", $val->user_id)->where("tanggal", $yesterday)->first();
+                $nilai_terakhir = $val->nilai;
+                $nilai_sebelumnya = $old?->nilai ?? 0;
+
+                $_datas->push(convertToObject([
+                    'id' => $val->id,
+                    'old_id' => $old?->id ?? null,
+                    'customer' => $val?->customer?->nama ?? "",
+                    'nilai_terakhir' => $nilai_terakhir,
+                    'nilai_sebelumnya' => $nilai_sebelumnya,
+                    'pemakaian' => $nilai_terakhir - $nilai_sebelumnya,
+                    'keterangan' => $val->keterangan,
+                    'user' => $val?->user?->nama ?? ""
+                ]));
+            }
+            $datas->push(convertToObject([
+                'id' => $group->id,
+                'jalur' => $group->jalur,
+                'type' => $group->type,
+                'datas' => $_datas
+            ]));
+        }
+
+        dd($datas);
+    }
+
+    function getUtilitas($date, $old_date, $group_id)
+    {
+
+        return Utilitas::with(['customer', 'user'])->where('type', Utilitas::TYPE_AIR_IRIGASI)
+            ->whereBetween('tanggal', [$old_date, $date])
+            ->whereHas('customer', function ($customer) use ($group_id) {
+                $customer->where("status", 1)->where("air_irigasi", 1)->where("group_id", $group_id);
+            })->get();
+    }
+
     function form(Request $request)
     {
         $date = Carbon::today()->toDateString();
@@ -50,7 +102,7 @@ class AirIrigasiController extends Controller
 
         $customers = Customer::with(['group', 'utilitas' => function ($utilitas) use ($date, $yesterday) {
             $utilitas->where("type", Utilitas::TYPE_AIR_IRIGASI)->whereIn("tanggal", [$date, $yesterday]);
-        }])->where("status", 1)->get();
+        }])->where("air_irigasi", 1)->where("status", 1)->get();
 
         $data = Utilitas::find($request->id);
         $old = Utilitas::where("customer_id", $data?->customer_id)

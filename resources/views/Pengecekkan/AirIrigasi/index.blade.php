@@ -23,10 +23,15 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h4 class="card-title">Data Air Irigasi</h4>
-                <a href="#" class="btn btn-rounded btn-primary"
-                    onclick="Modal('{{ route('pengecekkan.airirigasi.form') }}', 'modal-lg', 'Tambah Data')">
-                    Tambah Data
-                </a>
+                <div class="flex">
+                    <a href="#" class="btn btn-rounded btn-danger" onclick="exportPdf()">
+                        Export PDF
+                    </a>
+                    <a href="#" class="btn btn-rounded btn-primary"
+                        onclick="Modal('{{ route('pengecekkan.airirigasi.form') }}', 'modal-lg', 'Tambah Data')">
+                        Tambah Data
+                    </a>
+                </div>
             </div>
             <div class="card-body">
 
@@ -59,5 +64,12 @@
             e.preventDefault();
             tabel($("#date").val());
         });
+
+        function exportPdf() {
+            const date = $("#date").val();
+            let link = "{{ route('pengecekkan.airirigasi.pdf', ['date' => '__DATE__']) }}";
+            link = link.replace('__DATE__', date);
+            window.open(link);
+        }
     </script>
 @endsection

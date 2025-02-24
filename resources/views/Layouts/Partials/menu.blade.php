@@ -11,7 +11,7 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
-            <li class="{{ Str::startsWith(request()->path(), 'laporan/') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ Str::startsWith(request()->path(), 'laporan/') ? 'mm-active' : '' }}">
                 <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-file-1"></i>
                     <span class="nav-text">Laporan</span>
@@ -28,7 +28,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="{{ Str::startsWith(request()->path(), 'pengecekkan/') ? 'mm-active' : '' }}">
                 <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-archive"></i>
