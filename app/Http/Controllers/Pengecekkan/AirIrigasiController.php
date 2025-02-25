@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Group;
 use App\Models\Utilitas;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,12 +47,21 @@ class AirIrigasiController extends Controller
 
     function pdf(Request $request, $date)
     {
-        $yesterday = Carbon::parse($date)->subDay()->toDateString();
-        $firstdate = Carbon::parse($date)->startOfMonth()->toDateString();
-        dd($firstdate);
         $datas = collect();
-        $total_data = collect();
+
         $groups = Group::where("status", 1)->get();
+
+        $reqDate = Carbon::parse($date);
+        $yesterday = Carbon::parse($date)->subDay()->toDateString();
+        $firstdate = Carbon::parse($date)->startOfMonth();
+        $daysCount = $firstdate->diffInDays($reqDate) + 1;
+        $tanggal_str = $reqDate->locale('id')->isoFormat('dddd/D/MMMM');
+
+        $total = $this->getUtilitas($date, $firstdate, $groups->pluck("id")->toArray())->pluck('nilai')->sum();
+        $total_data = [
+            'total' => $total,
+            'rata_rata' => round($total / $daysCount, 2)
+        ];
 
         foreach ($groups as $group) {
             $_datas = collect();
@@ -82,16 +92,29 @@ class AirIrigasiController extends Controller
             ]));
         }
 
-        dd($datas);
+        $props = [
+            'data_irigasi' => $datas,
+            'total_data' => $total_data,
+            'tanggal' => $tanggal_str,
+            'tahun' => $reqDate->isoFormat("Y")
+        ];
+
+        $tanggal_str = str_replace(['/', '\\'], '-', $tanggal_str);
+
+        return Pdf::loadView("Pengecekkan.Airirigasi.Pdf.index", $props)->stream("pemakaian_air_irigasi_{$tanggal_str}.pdf");
     }
 
-    function getUtilitas($date, $old_date, $group_id)
+    function getUtilitas($date, $old_date, $group_id, $rekap = false)
     {
-
         return Utilitas::with(['customer', 'user'])->where('type', Utilitas::TYPE_AIR_IRIGASI)
             ->whereBetween('tanggal', [$old_date, $date])
             ->whereHas('customer', function ($customer) use ($group_id) {
-                $customer->where("status", 1)->where("air_irigasi", 1)->where("group_id", $group_id);
+                if (is_array($group_id)) {
+                    $customer->whereIn("group_id", $group_id);
+                } else {
+                    $customer->where("group_id", $group_id);
+                }
+                return $customer->where("status", 1)->where("air_irigasi", 1);
             })->get();
     }
 
