@@ -158,11 +158,23 @@ class DatabaseSeeder extends Seeder
         $firstDayOfMonth = Carbon::now()->month($month)->startOfMonth();
         for ($i = 0; $i < ((int)$month - 1); $i++) {
             $tanggal = $firstDayOfMonth->addMonths(-1)->toDateString();
-            foreach (Customer::get() as $key => $_customer) {
+            foreach (Customer::where("air_limbah", 1)->get() as $key => $_customer) {
+                $previousUtilitas = Utilitas::where('customer_id', $_customer->id)
+                    ->where("type", Utilitas::TYPE_AIR_LIMBAH)
+                    ->where('tanggal', '<', $tanggal)
+                    ->orderBy('tanggal', 'desc')
+                    ->first();
+
+                $minNilai = $previousUtilitas?->nilai ?? 1000;
+
+                do {
+                    $nilai = mt_rand(1000, 9999);
+                } while ($nilai < $minNilai);
+
                 Utilitas::create([
                     'customer_id' => $_customer->id,
                     'user_id' => User::where("username", "manajement")->first()?->id ?? null,
-                    'nilai' => mt_rand(1000, 9999),
+                    'nilai' => $nilai,
                     'type' => Utilitas::TYPE_AIR_LIMBAH,
                     'status' => Utilitas::STATUS_MENUNGGU,
                     'tanggal' => $tanggal
@@ -176,11 +188,20 @@ class DatabaseSeeder extends Seeder
         $today = Carbon::today()->toDateString();
         for ($i = 1; $i < $loop; $i++) {
             $tanggal = Carbon::parse($today)->addDays("-$i")->toDateString();
-            foreach (Customer::get() as $key => $_customer) {
+            foreach (Customer::where("air_irigasi", 1)->get() as $key => $_customer) {
+                $previousUtilitas = Utilitas::where('customer_id', $_customer->id)
+                    ->where("type", Utilitas::TYPE_AIR_IRIGASI)
+                    ->where('tanggal', '<', $tanggal)
+                    ->orderBy('tanggal', 'desc')
+                    ->first();
+
+                $minNilai = $previousUtilitas?->nilai ?? 1000;
+
+                $nilai = max(mt_rand(1000, 9999), $minNilai);
                 Utilitas::create([
                     'customer_id' => $_customer->id,
                     'user_id' => User::where("username", "manajement")->first()?->id ?? null,
-                    'nilai' => mt_rand(1000, 9999),
+                    'nilai' => $nilai,
                     'type' => Utilitas::TYPE_AIR_IRIGASI,
                     'status' => Utilitas::STATUS_MENUNGGU,
                     'keterangan' => null,

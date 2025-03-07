@@ -69,29 +69,34 @@
                     </li>
                 </ul>
             </li>
-            <li class="{{ Str::startsWith(request()->path(), 'master/') ? 'mm-active' : '' }}">
-                <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
-                    <i class="flaticon-381-unlocked-2"></i>
-                    <span class="nav-text">Master</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li class="{{ Str::startsWith(request()->path(), 'master/group/') ? 'custom-active' : '' }}">
-                        <a href="{{ route('master.group') }}">
-                            Group
-                        </a>
-                    </li>
-                    <li class="{{ Str::startsWith(request()->path(), 'master/customer/') ? 'custom-active' : '' }}">
-                        <a href="{{ route('master.customer') }}">
-                            Customer
-                        </a>
-                    </li>
-                    <li class="{{ Str::startsWith(request()->path(), 'master/usermanager/') ? 'custom-active' : '' }}">
-                        <a href="{{ route('master.usermanager') }}">
-                            User Manager
-                        </a>
-                    </li>
-                </ul>
-            </li>
+
+            @if (auth()->user()->role == 1)
+                <li class="{{ Str::startsWith(request()->path(), 'master/') ? 'mm-active' : '' }}">
+                    <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
+                        <i class="flaticon-381-unlocked-2"></i>
+                        <span class="nav-text">Master</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li class="{{ Str::startsWith(request()->path(), 'master/group/') ? 'custom-active' : '' }}">
+                            <a href="{{ route('master.group') }}">
+                                Group
+                            </a>
+                        </li>
+                        <li
+                            class="{{ Str::startsWith(request()->path(), 'master/customer/') ? 'custom-active' : '' }}">
+                            <a href="{{ route('master.customer') }}">
+                                Customer
+                            </a>
+                        </li>
+                        <li
+                            class="{{ Str::startsWith(request()->path(), 'master/usermanager/') ? 'custom-active' : '' }}">
+                            <a href="{{ route('master.usermanager') }}">
+                                User Manager
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

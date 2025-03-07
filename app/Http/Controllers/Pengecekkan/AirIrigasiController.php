@@ -100,7 +100,6 @@ class AirIrigasiController extends Controller
         ];
 
         $tanggal_str = str_replace(['/', '\\'], '-', $tanggal_str);
-
         return Pdf::loadView("Pengecekkan.Airirigasi.Pdf.index", $props)->stream("pemakaian_air_irigasi_{$tanggal_str}.pdf");
     }
 

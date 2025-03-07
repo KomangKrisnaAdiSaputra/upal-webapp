@@ -45,10 +45,11 @@
     <div id="main-wrapper">
         <div class="nav-header">
             <a href="index.html" class="brand-logo">
-                {{-- <img class="logo-abbr" src="{{ asset('assets/images/logo.png') }}" alt="" loading="lazy"> --}}
-                {{-- <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt=""
+                <img class="logo-abbr" src="{{ asset('assets/images/logo.png') }}" alt="" loading="lazy">
+                <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt=""
                     loading="lazy">
-                <img class="brand-title" src="{{ asset('assets/images/logo-text.png') }}" alt="" loading="lazy"> --}}
+                <img class="brand-title" style="margin-left: 10px; max-width: 92px;"
+                    src="{{ asset('assets/images/logo-text.png') }}" alt="" loading="lazy">
             </a>
             <div class="nav-control">
                 <div class="hamburger">

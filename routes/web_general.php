@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
     }));
   });
 
-  Route::prefix("master")->name("master")->group(function () {
+  Route::prefix("master")->name("master")->middleware(["checkrole:1"])->group(function () {
 
     Route::prefix("group")->name(".group")->controller(GroupController::class)->group(function () {
       Route::get("/", "index");
