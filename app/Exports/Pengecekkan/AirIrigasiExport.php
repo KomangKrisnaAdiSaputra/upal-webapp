@@ -22,7 +22,6 @@ class AirIrigasiExport implements WithEvents
     public function registerEvents(): array
     {
         $datas = (new AirIrigasiController)->dataExport($this->date);
-        // dd($datas);
         return [
             AfterSheet::class => function (AfterSheet $event) use ($datas) {
                 $drawing = new Drawing();
@@ -110,13 +109,16 @@ class AirIrigasiExport implements WithEvents
                 $event->sheet->setCellValue("F$cell", null);
                 $event->sheet->setCellValue("G$cell", null);
 
-                foreach ($datas->total_data as $key => $value) {
-                    $_text = $key == "total" ? "Penjualan Air Irigasi Dari Tanggal 1 s/d Hari Ini" : "Rata - rata Penjualan Air Irigasi Dari Tanggal 1 s/d Hari Ini";
-                    $event->sheet->mergeCells("B$cell:E$cell");
-                    $event->sheet->setCellValue("A$cell", null);
-                    $event->sheet->setCellValue("B$cell", $_text);
-                    $event->sheet->setCellValue("F$cell", $value);
-                    $cell += 1;
+
+                if ($num > 1) {
+                    foreach ($datas->total_data as $key => $value) {
+                        $_text = $key == "total" ? "Penjualan Air Irigasi Dari Tanggal 1 s/d Hari Ini" : "Rata - rata Penjualan Air Irigasi Dari Tanggal 1 s/d Hari Ini";
+                        $event->sheet->mergeCells("B$cell:E$cell");
+                        $event->sheet->setCellValue("A$cell", null);
+                        $event->sheet->setCellValue("B$cell", $_text);
+                        $event->sheet->setCellValue("F$cell", $value);
+                        $cell += 1;
+                    }
                 }
 
                 $cell += 4;
