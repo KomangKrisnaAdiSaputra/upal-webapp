@@ -76,8 +76,10 @@
         // }
 
         function exportExcel() {
-            console.log("huhu");
-
+            const date = $("#date").val();
+            let link = "{{ route('pengecekkan.airirigasi.exportexcel', ['date' => '__DATE__']) }}";
+            link = link.replace('__DATE__', date);
+            window.open(link);
         }
     </script>
 @endsection

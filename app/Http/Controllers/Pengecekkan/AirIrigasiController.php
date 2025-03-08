@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengecekkan;
 
+use App\Exports\Pengecekkan\AirIrigasiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Group;
@@ -10,6 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AirIrigasiController extends Controller
 {
@@ -46,6 +48,16 @@ class AirIrigasiController extends Controller
     }
 
     function pdf(Request $request, $date)
+    {
+        $reqDate = Carbon::parse($date);
+        $tanggal_str = $reqDate->locale('id')->isoFormat('dddd/D/MMMM');
+        $tanggal_str = str_replace(['/', '\\'], '-', $tanggal_str);
+        $props = $this->dataExport($date);
+
+        return Pdf::loadView("Pengecekkan.Airirigasi.Pdf.index", $props)->stream("pemakaian_air_irigasi_{$tanggal_str}.pdf");
+    }
+
+    function dataExport($date)
     {
         $datas = collect();
 
@@ -92,15 +104,20 @@ class AirIrigasiController extends Controller
             ]));
         }
 
-        $props = [
+        $props = convertToObject([
             'data_irigasi' => $datas,
             'total_data' => $total_data,
             'tanggal' => $tanggal_str,
             'tahun' => $reqDate->isoFormat("Y")
-        ];
+        ]);
+        return $props;
+    }
 
-        $tanggal_str = str_replace(['/', '\\'], '-', $tanggal_str);
-        return Pdf::loadView("Pengecekkan.Airirigasi.Pdf.index", $props)->stream("pemakaian_air_irigasi_{$tanggal_str}.pdf");
+    function exportExcel(Request $request)
+    {
+        $name = Carbon::parse($request->date)->format('jFY');
+        $file = Excel::download(new AirIrigasiExport($request->date), "airirigasi_$name.xlsx");
+        return $file;
     }
 
     function getUtilitas($date, $old_date, $group_id, $rekap = false)

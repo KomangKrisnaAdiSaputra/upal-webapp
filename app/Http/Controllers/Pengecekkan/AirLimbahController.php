@@ -68,7 +68,8 @@ class AirLimbahController extends Controller
 
     function exportExcel(Request $request)
     {
-        $file = Excel::download(new AirLimbahExport($request->date), 'airlimbah.xlsx');
+        $name = Carbon::parse($request->date)->format('FY');
+        $file = Excel::download(new AirLimbahExport($request->date), "airlimbah_$name.xlsx");
         return $file;
     }
 }
