@@ -19,7 +19,8 @@ return new class extends Migration
             $table->double('harga_air_irigasi')->nullable();
             $table->boolean('air_limbah');
             $table->double('harga_air_limbah')->nullable();
-            $table->string('penanganan_air_limbah')->nullable();
+            $table->string('type_perhitungan');
+            $table->double('perhitungan');
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

@@ -92,13 +92,30 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-lg-4 col-form-label" for="nama">Penanganan Air Limbah
+                                <label class="col-lg-4 col-form-label" for="type_perhitungan">Type Perhitungan
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="col-lg-6">
-                                    <input type="text" class="form-control" id="penanganan_air_limbah"
-                                        name="penanganan_air_limbah" placeholder="penanganan air limbah"
-                                        value="{{ $customer?->penanganan_air_limbah ?? '' }}" required>
+                                    <select name="type_perhitungan" id="type_perhitungan" class="form-control select2">
+                                        <option value="">-- Pilih Data --</option>
+                                        @foreach ($typePerhitungan as $val)
+                                            <option value="{{ $val->value }}"
+                                                {{ $customer?->type_perhitungan ?? '' == $val->value ? 'selected' : '' }}>
+                                                {{ $val->label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-4 col-form-label" for="nama">Perhitungan
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    <input type="number" class="form-control" id="perhitungan" name="perhitungan"
+                                        placeholder="perhitungan" value="{{ $customer?->perhitungan ?? '' }}"
+                                        step="any" required>
                                 </div>
                             </div>
 

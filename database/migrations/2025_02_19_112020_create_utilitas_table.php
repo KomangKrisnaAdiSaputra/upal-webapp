@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->bigInteger('nilai');
             $table->text('keterangan')->nullable();
-            $table->string('status');
+            // $table->string('status');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Customer extends Model
 {
@@ -17,17 +18,14 @@ class Customer extends Model
         'harga_air_irigasi',
         'air_limbah',
         'harga_air_limbah',
-        'penanganan_air_limbah',
+        'type_perhitungan',
+        'perhitungan',
         'status',
     ];
 
     protected $casts = [
         'id' => 'string',
         'status' => 'boolean'
-    ];
-
-    protected $appends = [
-        'nilai_str',
     ];
 
     public function utilitas()
@@ -40,11 +38,17 @@ class Customer extends Model
         return $this->belongsTo(Group::class, 'group_id');
     }
 
-    function getNilaiStrAttribute()
+    function typePerhitungan()
     {
-        $nilai_str = "";
-        $pal = preg_split('/\sx\s/i', $this->penanganan_air_limbah);
-        if (count($pal) > 1) $nilai_str =  $pal[1];
-        return $nilai_str;
+        $datas = collect();
+        $types = ['WATER METER', 'RNS', 'PDAM'];
+
+        foreach ($types as $type) {
+            $datas->push(convertToObject([
+                "value" => $type,
+                "label" => Str::title($type)
+            ]));
+        }
+        return $datas;
     }
 }

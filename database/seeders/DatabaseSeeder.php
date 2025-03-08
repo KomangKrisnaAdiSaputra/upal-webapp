@@ -64,11 +64,7 @@ class DatabaseSeeder extends Seeder
         // Customer
         $qty_customer = 10;
         $_groups = Group::get();
-        $PAL = [
-            "70% X PEMAK AIR BERSIH",
-            "1.5 X RNS",
-            null
-        ];
+        $typePerhitungan = (new Customer())->typePerhitungan()->pluck("value")->toArray();
         for ($cus = 0; $cus < $qty_customer; $cus++) {
             $group_id = $cus > 4 ? $_groups->first()->id : $_groups->last()->id;
             Customer::create([
@@ -78,11 +74,13 @@ class DatabaseSeeder extends Seeder
                 'harga_air_irigasi' => $cus == 0 ? null : 8192.8,
                 'air_limbah' => $cus == 1 ? 0 : 1,
                 'harga_air_limbah' => $cus == 1 ? null : 4158.5,
-                'penanganan_air_limbah' => $PAL[array_rand($PAL)],
+                'type_perhitungan' => $typePerhitungan[array_rand($typePerhitungan)],
+                'perhitungan' => 0.7,
                 'status' => 1
             ]);
         }
         // End Customer
+        return;
 
         // Minute Air Limbah 
         for ($i = 1; $i <= 10; $i++) {

@@ -15,6 +15,7 @@
                 <label>Customer</label>
                 <input type="hidden" value='{{ json_encode($customers) }}' id="data_customers">
                 <input type="hidden" value='{{ $data?->id ?? '' }}' name="id">
+
                 @if (isset($data->id) && $data->id != '')
                     <input type="hidden" value='{{ $data?->customer_id ?? '' }}' name="customer_id">
                     <input type="text" class="form-control" value='{{ $data?->customer?->nama ?? '' }}' disabled>
@@ -51,11 +52,16 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-12">
-                <label>Sistem Penagihan Air Limbah</label>
-                <input type="text" class="form-control" disabled placeholder="Sistem Penagihan Air Limbah"
-                    name="penanganan_air_limbah" id="penanganan_air_limbah"
-                    value="{{ $data?->customer?->penanganan_air_limbah ?? '' }}">
+            <div class="form-group col-md-6">
+                <label>Type Perhitungan</label>
+                <input type="text" class="form-control" disabled placeholder="Type Perhitungan"
+                    name="type_perhitungan" id="type_perhitungan"
+                    value="{{ $data?->customer?->type_perhitungan ?? '' }}">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Perhitungan</label>
+                <input type="text" class="form-control" disabled placeholder="Perhitungan" name="perhitungan"
+                    id="perhitungan" value="{{ $data?->customer?->perhitungan ?? '' }}">
             </div>
         </div>
         <div class="form-row">
@@ -66,7 +72,7 @@
                     </span>
                 </label>
                 <input type="number" class="form-control" placeholder="Nilai" name="nilai"
-                    value="{{ $data?->nilai ?? '' }}" required>
+                    value="{{ $data?->nilai ?? '' }}" required autocomplete="off">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
@@ -88,7 +94,8 @@
         $("#tipe").val(customer?.group?.type ?? "");
         $("#harga_limbah").val(customer?.harga_air_limbah ?? "");
         $("#harga_irigasi").val(customer?.harga_air_irigasi ?? "");
-        $("#penanganan_air_limbah").val(customer?.penanganan_air_limbah ?? "");
+        $("#type_perhitungan").val(customer?.type_perhitungan ?? "");
+        $("#perhitungan").val(customer?.perhitungan ?? "");
         $("#nilai_str").html(customer?.nilai_str ?? "");
     }
 
@@ -109,7 +116,8 @@
                 const qty = customers.filter((item) => (item.utilitas.length > 0)).length + 1;
                 const customer = customers.filter((item) => (item.id === body.customer_id))[0] ?? null;
 
-                if (!body?.id && body?.id != "") {
+                if (body?.id == "") {
+
                     if (qty == 1) $("#tabel-pengecekkan-al tbody tr:first").remove();
                     let link = "{{ route('pengecekkan.airlimbah.form', ['id' => '__ID__']) }}";
                     link = link.replace('__ID__', data.id);
@@ -121,8 +129,8 @@
                             <td>${customer.group.type}</td>
                             <td class="text-right">${customer.harga_air_limbah ?? 0}</td>
                             <td class="text-right">${customer.harga_air_irigasi ?? 0}</td>
-                            <td>${customer.penanganan_air_limbah}</td>
-                            <td class="text-right">${customer.nilai_str}: ${body.nilai}</td>
+                            <td>${customer.perhitungan}</td>
+                            <td class="text-right">${customer.type_perhitungan}: ${body.nilai}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1" 
@@ -134,7 +142,7 @@
                         </tr>
                     `);
                 } else {
-                    $(`#nilai_${body.id}`).html(`${customer.nilai_str}: ${body.nilai}`);
+                    $(`#nilai_${body.id}`).html(`${customer.type_perhitungan}: ${body.nilai}`);
                 }
             }
 

@@ -5,7 +5,7 @@
             <th class="align-middle p-2" rowspan="2">Konsumen</th>
             <th class="align-middle p-2" rowspan="2">Tipe Konsumen</th>
             <th class="align-middle p-2" colspan="2">Harga</th>
-            <th class="align-middle p-2" rowspan="2">Sistem Penagihan Air Limbah</th>
+            <th class="align-middle p-2" rowspan="2">Perhitungan</th>
             <th class="align-middle p-2" rowspan="2">Nilai</th>
             <th class="align-middle p-2" rowspan="2">Action</th>
         </tr>
@@ -22,9 +22,9 @@
                 <td>{{ $data->customer->group->type }}</td>
                 <td class="text-right">{{ $data->customer->harga_air_limbah ?? 0 }}</td>
                 <td class="text-right">{{ $data->customer->harga_air_irigasi ?? 0 }}</td>
-                <td>{{ $data->customer->penanganan_air_limbah }}</td>
+                <td>{{ $data->customer->perhitungan }}</td>
                 <td class="text-right" id="nilai_{{ $data->id }}">
-                    {{ $data->customer->nilai_str . ': ' . $data->nilai }}
+                    {{ $data->customer->type_perhitungan . ': ' . $data->nilai }}
                 </td>
                 <td>
                     <div class="d-flex justify-content-center">

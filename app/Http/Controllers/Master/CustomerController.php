@@ -19,15 +19,17 @@ class CustomerController extends Controller
     function create()
     {
         $groups = Group::selectRaw("id as value, type as label")->where('status', 1)->get();
-        return view("Master.Customer.Form.index", compact('groups'));
+        $typePerhitungan = (new Customer())->typePerhitungan();
+        return view("Master.Customer.Form.index", compact('groups', 'typePerhitungan'));
     }
 
     function edit(Request $request, $id)
     {
         $customer = Customer::find($id);
         $groups = Group::selectRaw("id as value, type as label")->where('status', 1)->get();
+        $typePerhitungan = (new Customer())->typePerhitungan();
 
-        return view("Master.Customer.Form.index", compact('customer', 'groups'));
+        return view("Master.Customer.Form.index", compact('customer', 'groups', 'typePerhitungan'));
     }
 
     function saveData(Request $request)
@@ -41,7 +43,8 @@ class CustomerController extends Controller
                 'harga_air_irigasi' => $request->harga_air_irigasi,
                 'air_limbah' => isset($request->air_limbah) ? 1 : 0,
                 'harga_air_limbah' => $request->harga_air_limbah,
-                'penanganan_air_limbah' => $request->penanganan_air_limbah,
+                'type_perhitungan' => $request->type_perhitungan,
+                'perhitungan' => $request->perhitungan,
                 'status' => (bool)$request->status
             ];
 

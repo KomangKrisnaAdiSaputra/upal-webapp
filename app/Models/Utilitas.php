@@ -24,7 +24,7 @@ class Utilitas extends Model
         'tanggal',
         'nilai',
         'keterangan',
-        'status',
+        // 'status',
     ];
 
     protected $casts = [

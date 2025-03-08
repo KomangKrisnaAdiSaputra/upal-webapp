@@ -49,7 +49,7 @@ class AirLimbahController extends Controller
                     'user_id' => auth()->user()->id,
                     'nilai' => (float)$request->nilai,
                     'type' => Utilitas::TYPE_AIR_LIMBAH,
-                    'status' => Utilitas::STATUS_MENUNGGU,
+                    // 'status' => Utilitas::STATUS_MENUNGGU,
                     'tanggal' => Carbon::now()->startOfMonth()->toDateString()
                 ]);
             }

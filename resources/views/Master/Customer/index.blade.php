@@ -16,7 +16,8 @@
                                 <th>Nama</th>
                                 <th>Harga Air Irigasi (Rp)</th>
                                 <th>Harga Air Limbah (Rp)</th>
-                                <th>Sistem Penagihan Air Limbah</th>
+                                <th>Type Perhitungan</th>
+                                <th>Perhitungan</th>
                                 <th>Group</th>
                                 <th>Pelanggan Air Irigasi</th>
                                 <th>Pelanggan Air Limbah</th>
@@ -30,7 +31,8 @@
                                     <td>{{ $customer->nama }}</td>
                                     <td class="text-right">{{ $customer?->harga_air_irigasi ?? 0 }}</td>
                                     <td class="text-right">{{ $customer?->harga_air_limbah ?? 0 }}</td>
-                                    <td>{{ $customer->penanganan_air_limbah }}</td>
+                                    <td>{{ $customer->type_perhitungan }}</td>
+                                    <td>{{ $customer->perhitungan }}</td>
                                     <td>{{ ucwords(strtolower($customer->group->type)) }}</td>
                                     <td class="text-center">
                                         @if ($customer->air_irigasi)
