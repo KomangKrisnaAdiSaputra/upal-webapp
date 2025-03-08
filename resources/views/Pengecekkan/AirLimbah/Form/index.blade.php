@@ -40,25 +40,26 @@
                 <input type="text" class="form-control" disabled placeholder="Tipe" name="tipe" id="tipe"
                     value="{{ $data?->customer?->group?->type ?? '' }}">
             </div>
-            <div class="form-group col-md-6">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
                 <label>Harga Limbah (Rp)</label>
                 <input type="text" class="form-control" disabled placeholder="Harga Limbah" id="harga_limbah"
                     name="harga_limbah" value="{{ $data?->customer?->harga_air_limbah ?? 0 }}">
             </div>
-            <div class="form-group col-md-6">
+            {{-- <div class="form-group col-md-6">
                 <label>Harga Air Irigasi (Rp)</label>
                 <input type="text" class="form-control" disabled placeholder="Harga Irigasi" name="harga_irigasi"
                     id="harga_irigasi" value="{{ $data?->customer?->harga_air_irigasi ?? 0 }}">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+            </div> --}}
+            <div class="form-group col-md-4">
                 <label>Type Perhitungan</label>
                 <input type="text" class="form-control" disabled placeholder="Type Perhitungan"
                     name="type_perhitungan" id="type_perhitungan"
                     value="{{ $data?->customer?->type_perhitungan ?? '' }}">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label>Perhitungan</label>
                 <input type="text" class="form-control" disabled placeholder="Perhitungan" name="perhitungan"
                     id="perhitungan" value="{{ $data?->customer?->perhitungan ?? '' }}">
@@ -66,12 +67,12 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label>Nilai:
+                <label>Pemakaian:
                     <span id="nilai_str">
                         {{ $data?->customer?->nilai_str ?? '' }}
                     </span>
                 </label>
-                <input type="number" class="form-control" placeholder="Nilai" name="nilai"
+                <input type="number" class="form-control" placeholder="Pemakaian" name="nilai"
                     value="{{ $data?->nilai ?? '' }}" required autocomplete="off">
             </div>
         </div>

@@ -6,7 +6,7 @@
             <th class="align-middle p-2" rowspan="2">Tipe Konsumen</th>
             <th class="align-middle p-2" colspan="2">Harga</th>
             <th class="align-middle p-2" rowspan="2">Perhitungan</th>
-            <th class="align-middle p-2" rowspan="2">Nilai</th>
+            <th class="align-middle p-2" rowspan="2">Pemakaian</th>
             <th class="align-middle p-2" rowspan="2">Action</th>
         </tr>
         <tr class="text-center text-sm">
