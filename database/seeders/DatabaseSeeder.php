@@ -80,7 +80,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         // End Customer
-        return;
 
         // Minute Air Limbah 
         for ($i = 1; $i <= 10; $i++) {
@@ -141,7 +140,7 @@ class DatabaseSeeder extends Seeder
                         'sub_lokasi' => "Pompa " . $i + 1,
                         'pompa_terpasang' => $enum->loop_datas[$i],
                         'jam' => "06:30",
-                        'nilai' => number_format(mt_rand(1000, 9999) + mt_rand(0, 99) / 100, 2, '.', ''),
+                        'nilai' => number_format(100000 / 100, 2, '.', ''),
                         'volume' => true,
                         'ampere' => true,
                         'tanggal' => $date
@@ -157,24 +156,25 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < ((int)$month - 1); $i++) {
             $tanggal = $firstDayOfMonth->addMonths(-1)->toDateString();
             foreach (Customer::where("air_limbah", 1)->get() as $key => $_customer) {
-                $previousUtilitas = Utilitas::where('customer_id', $_customer->id)
-                    ->where("type", Utilitas::TYPE_AIR_LIMBAH)
-                    ->where('tanggal', '<', $tanggal)
-                    ->orderBy('tanggal', 'desc')
-                    ->first();
+                // $previousUtilitas = Utilitas::where('customer_id', $_customer->id)
+                //     ->where("type", Utilitas::TYPE_AIR_LIMBAH)
+                //     ->where('tanggal', '<', $tanggal)
+                //     ->orderBy('tanggal', 'desc')
+                //     ->first();
 
-                $minNilai = $previousUtilitas?->nilai ?? 1000;
+                // $minNilai = $previousUtilitas?->nilai ?? 1000;
 
-                do {
-                    $nilai = mt_rand(1000, 9999);
-                } while ($nilai < $minNilai);
+                // do {
+                //     $nilai = mt_rand(1000, 9999);
+                // } while ($nilai < $minNilai);
+                $nilai = 10000;
 
                 Utilitas::create([
                     'customer_id' => $_customer->id,
                     'user_id' => User::where("username", "manajement")->first()?->id ?? null,
                     'nilai' => $nilai,
                     'type' => Utilitas::TYPE_AIR_LIMBAH,
-                    'status' => Utilitas::STATUS_MENUNGGU,
+                    // 'status' => Utilitas::STATUS_MENUNGGU,
                     'tanggal' => $tanggal
                 ]);
             }
@@ -187,21 +187,23 @@ class DatabaseSeeder extends Seeder
         for ($i = 1; $i < $loop; $i++) {
             $tanggal = Carbon::parse($today)->addDays("-$i")->toDateString();
             foreach (Customer::where("air_irigasi", 1)->get() as $key => $_customer) {
-                $previousUtilitas = Utilitas::where('customer_id', $_customer->id)
-                    ->where("type", Utilitas::TYPE_AIR_IRIGASI)
-                    ->where('tanggal', '<', $tanggal)
-                    ->orderBy('tanggal', 'desc')
-                    ->first();
+                // $previousUtilitas = Utilitas::where('customer_id', $_customer->id)
+                //     ->where("type", Utilitas::TYPE_AIR_IRIGASI)
+                //     ->where('tanggal', '<', $tanggal)
+                //     ->orderBy('tanggal', 'desc')
+                //     ->first();
 
-                $minNilai = $previousUtilitas?->nilai ?? 1000;
+                // $minNilai = $previousUtilitas?->nilai ?? 1000;
+                // $nilai = max(mt_rand(1000, 9999), $minNilai);
 
-                $nilai = max(mt_rand(1000, 9999), $minNilai);
+                $nilai = 10000;
+
                 Utilitas::create([
                     'customer_id' => $_customer->id,
                     'user_id' => User::where("username", "manajement")->first()?->id ?? null,
                     'nilai' => $nilai,
                     'type' => Utilitas::TYPE_AIR_IRIGASI,
-                    'status' => Utilitas::STATUS_MENUNGGU,
+                    // 'status' => Utilitas::STATUS_MENUNGGU,
                     'keterangan' => null,
                     'tanggal' => $tanggal
                 ]);

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Pengecekkan;
 
+use App\Exports\Pengecekkan\AirLimbahExport;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Utilitas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AirLimbahController extends Controller
 {
@@ -61,5 +64,11 @@ class AirLimbahController extends Controller
         }
 
         return response()->json(['id' => $utilitas->id], 200);
+    }
+
+    function exportExcel(Request $request)
+    {
+        $file = Excel::download(new AirLimbahExport($request->date), 'airlimbah.xlsx');
+        return $file;
     }
 }

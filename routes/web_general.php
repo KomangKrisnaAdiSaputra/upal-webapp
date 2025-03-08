@@ -48,14 +48,15 @@ Route::middleware(['auth'])->group(function () {
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');
       Route::post("savedata", "saveData")->name('.savedata.post');
+      Route::get("excel/{date}", "exportExcel")->name('.exportexcel');
     });
 
     Route::prefix("airirigasi")->name(".airirigasi")->controller(PengecekkanAirIrigasiController::class)->group(function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');
-      Route::get("pdf/{date}", "pdf")->name('.pdf');
       Route::post("savedata", "saveData")->name('.savedata.post');
+      // Route::get("pdf/{date}", "pdf")->name('.pdf');
     });
   });
 

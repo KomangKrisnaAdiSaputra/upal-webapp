@@ -33,10 +33,15 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h4 class="card-title">Data Air Limbah</h4>
-                <a href="#" class="btn btn-rounded btn-primary"
-                    onclick="Modal('{{ route('pengecekkan.airlimbah.form') }}', 'modal-lg', 'Tambah Data')">
-                    Tambah Data
-                </a>
+                <div class="flex">
+                    <a href="#" class="btn btn-rounded btn-success" onclick="exportExcel()">
+                        Export Excel
+                    </a>
+                    <a href="#" class="btn btn-rounded btn-primary"
+                        onclick="Modal('{{ route('pengecekkan.airlimbah.form') }}', 'modal-lg', 'Tambah Data')">
+                        Tambah Data
+                    </a>
+                </div>
             </div>
 
             <div class="card-body">
@@ -70,5 +75,12 @@
             e.preventDefault();
             tabel($("#date").val());
         });
+
+        function exportExcel() {
+            const date = $("#date").val();
+            let link = "{{ route('pengecekkan.airlimbah.exportexcel', ['date' => '__DATE__']) }}";
+            link = link.replace('__DATE__', date);
+            window.open(link);
+        }
     </script>
 @endsection
