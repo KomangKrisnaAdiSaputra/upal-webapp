@@ -30,7 +30,7 @@ class AirLimbahController extends Controller
     {
         $customers = Customer::with(['group', 'utilitas' => function ($utilitas) {
             $utilitas->where("type", Utilitas::TYPE_AIR_LIMBAH)->whereDate("tanggal", Carbon::now()->startOfMonth());
-        }])->where("status", 1)->get();
+        }])->where("air_limbah", 1)->where("status", 1)->get();
 
         $data = Utilitas::find($request->id);
         return view("Pengecekkan.AirLimbah.Form.index", compact('customers', 'data'));

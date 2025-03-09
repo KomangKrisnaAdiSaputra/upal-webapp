@@ -60,8 +60,8 @@
                     value="{{ $data?->customer?->type_perhitungan ?? '' }}">
             </div>
             <div class="form-group col-md-4">
-                <label>Perhitungan</label>
-                <input type="text" class="form-control" disabled placeholder="Perhitungan" name="perhitungan"
+                <label>Koefisien</label>
+                <input type="text" class="form-control" disabled placeholder="Koefisien" name="perhitungan"
                     id="perhitungan" value="{{ $data?->customer?->perhitungan ?? '' }}">
             </div>
         </div>

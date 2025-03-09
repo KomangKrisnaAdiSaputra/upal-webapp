@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
     });
   });
 
-  Route::prefix('pencatatan/mc')->name('pencatatan.mc')->group(function () {
+  Route::prefix('monitoring/mc')->name('pencatatan.mc')->group(function () {
 
     Route::prefix("airlimbah")->name(".airlimbah")->controller(AirLimbahController::class)->group((function () {
       Route::get("/", "index");

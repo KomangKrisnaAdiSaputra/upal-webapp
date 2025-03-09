@@ -49,20 +49,20 @@
                     </li>
                 </ul>
             </li>
-            <li class="{{ Str::startsWith(request()->path(), 'pencatatan/') ? 'mm-active' : '' }}">
+            <li class="{{ Str::startsWith(request()->path(), 'monitoring/') ? 'mm-active' : '' }}">
                 <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-notepad-2"></i>
-                    <span class="nav-text">Pencatatan</span>
+                    <span class="nav-text">Monitoring</span>
                 </a>
                 <ul aria-expanded="false">
                     <li
-                        class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airlimbah') ? 'custom-active' : '' }}">
+                        class="{{ Str::startsWith(request()->path(), 'monitoring/mc/airlimbah') ? 'custom-active' : '' }}">
                         <a href="{{ route('pencatatan.mc.airlimbah') }}">
                             Minute Counter Air Limbah
                         </a>
                     </li>
                     <li
-                        class="{{ Str::startsWith(request()->path(), 'pencatatan/mc/airirigasi') ? 'custom-active' : '' }}">
+                        class="{{ Str::startsWith(request()->path(), 'monitoring/mc/airirigasi') ? 'custom-active' : '' }}">
                         <a href="{{ route('pencatatan.mc.airirigasi') }}">
                             Minute Counter Air Irigasi
                         </a>
