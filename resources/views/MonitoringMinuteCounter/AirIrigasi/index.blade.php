@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Pencatatan Minute Counter Air Limbah')
+@section('title', 'Monitoring Minute Counter Air Irigasi')
 
 @section('css')
     <style>
@@ -19,7 +19,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Data Air Limbah</h4>
+                <h4 class="card-title">Data Air Irigasi</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -66,7 +66,7 @@
         function tabel(date = null) {
             $('#data-tabel').html(spinner());
 
-            $.get("{{ route('pencatatan.mc.airlimbah.gettabel') }}", {
+            $.get("{{ route('monitoring.mc.airirigasi.gettabel') }}", {
                 date
             }, function(data, status) {
                 setTimeout(() => {
@@ -96,7 +96,7 @@
 
                 $("#btn-simpan").html(spinner("text-white", "1rem", "1rem"));
 
-                $.post("{{ route('pencatatan.mc.airlimbah.savedata.post') }}", {
+                $.post("{{ route('monitoring.mc.airirigasi.savedata.post') }}", {
                     ...body
                 }, function(data, status) {
                     setTimeout(() => {

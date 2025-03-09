@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PencatatanMinuteCounter;
+namespace App\Http\Controllers\MonitoringMinuteCounter;
 
 use App\Http\Controllers\Controller;
 use App\Models\MinuteCounter;
@@ -30,7 +30,7 @@ class AirIrigasiController extends Controller
 
     function index()
     {
-        return view("PencatatanMinuteCounter.AirIrigasi.index");
+        return view("MonitoringMinuteCounter.AirIrigasi.index");
     }
 
     function saveData(Request $request)
@@ -151,6 +151,6 @@ class AirIrigasiController extends Controller
             }
         }
 
-        return view("PencatatanMinuteCounter.AirIrigasi.Partials.tabel", compact('datas'));
+        return view("MonitoringMinuteCounter.AirIrigasi.Partials.tabel", compact('datas'));
     }
 }

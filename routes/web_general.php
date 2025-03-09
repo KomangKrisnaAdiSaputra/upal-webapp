@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\DasboardController;
-use App\Http\Controllers\Laporan\AirLimbahController as LaporanAirLimbahController;
-use App\Http\Controllers\Laporan\AirIrigasiController as LaporanAirIrigasiController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\GroupController;
 use App\Http\Controllers\Master\UserManagerController;
-use App\Http\Controllers\PencatatanMinuteCounter\AirIrigasiController;
-use App\Http\Controllers\PencatatanMinuteCounter\AirLimbahController;
+use App\Http\Controllers\MonitoringMinuteCounter\AirIrigasiController;
+use App\Http\Controllers\MonitoringMinuteCounter\AirLimbahController;
 use App\Http\Controllers\Pengecekkan\AirIrigasiController as PengecekkanAirIrigasiController;
 use App\Http\Controllers\Pengecekkan\AirLimbahController as PengecekkanAirLimbahController;
 use App\Http\Controllers\ProfileController;
@@ -23,23 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get("profile", "index")->name('profile.index');
     Route::post("save", "save")->name('profile.save.post');
   });
-
-  // Route::prefix('laporan')->name('laporan')->group(function () {
-
-  //   Route::prefix("airlimbah")->name(".airlimbah")->controller(LaporanAirLimbahController::class)->group(function () {
-  //     Route::get("/", "index");
-  //     Route::get("gettabel", "getTabel")->name('.gettabel');
-  //     Route::get("form", "form")->name('.form');
-  //     Route::post("savedata", "saveData")->name('.savedata.post');
-  //   });
-
-  //   Route::prefix("airirigasi")->name(".airirigasi")->controller(LaporanAirIrigasiController::class)->group(function () {
-  //     Route::get("/", "index");
-  //     Route::get("gettabel", "getTabel")->name('.gettabel');
-  //     Route::get("form", "form")->name('.form');
-  //     Route::post("savedata", "saveData")->name('.savedata.post');
-  //   });
-  // });
 
   Route::prefix('pengecekkan')->name('pengecekkan')->group(function () {
 
@@ -61,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
     });
   });
 
-  Route::prefix('monitoring/mc')->name('pencatatan.mc')->group(function () {
+  Route::prefix('monitoring/mc')->name('monitoring.mc')->group(function () {
 
     Route::prefix("airlimbah")->name(".airlimbah")->controller(AirLimbahController::class)->group((function () {
       Route::get("/", "index");

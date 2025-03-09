@@ -57,13 +57,13 @@
                 <ul aria-expanded="false">
                     <li
                         class="{{ Str::startsWith(request()->path(), 'monitoring/mc/airlimbah') ? 'custom-active' : '' }}">
-                        <a href="{{ route('pencatatan.mc.airlimbah') }}">
+                        <a href="{{ route('monitoring.mc.airlimbah') }}">
                             Minute Counter Air Limbah
                         </a>
                     </li>
                     <li
                         class="{{ Str::startsWith(request()->path(), 'monitoring/mc/airirigasi') ? 'custom-active' : '' }}">
-                        <a href="{{ route('pencatatan.mc.airirigasi') }}">
+                        <a href="{{ route('monitoring.mc.airirigasi') }}">
                             Minute Counter Air Irigasi
                         </a>
                     </li>
