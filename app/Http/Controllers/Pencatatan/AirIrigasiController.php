@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Pengecekkan;
+namespace App\Http\Controllers\Pencatatan;
 
-use App\Exports\Pengecekkan\AirIrigasiExport;
+use App\Exports\Pencatatan\AirIrigasiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Group;
@@ -17,7 +17,7 @@ class AirIrigasiController extends Controller
 {
     function index()
     {
-        return view("Pengecekkan.AirIrigasi.index");
+        return view("Pencatatan.AirIrigasi.index");
     }
 
     function getTabel(Request $request)
@@ -44,7 +44,7 @@ class AirIrigasiController extends Controller
             ]));
         }
 
-        return view("Pengecekkan.AirIrigasi.Partials.tabel", compact('datas'));
+        return view("Pencatatan.AirIrigasi.Partials.tabel", compact('datas'));
     }
 
     function pdf(Request $request, $date)
@@ -54,7 +54,7 @@ class AirIrigasiController extends Controller
         $tanggal_str = str_replace(['/', '\\'], '-', $tanggal_str);
         $props = $this->dataExport($date);
 
-        return Pdf::loadView("Pengecekkan.Airirigasi.Pdf.index", $props)->stream("pemakaian_air_irigasi_{$tanggal_str}.pdf");
+        return Pdf::loadView("Pencatatan.Airirigasi.Pdf.index", $props)->stream("pemakaian_air_irigasi_{$tanggal_str}.pdf");
     }
 
     function dataExport($date)
@@ -147,7 +147,7 @@ class AirIrigasiController extends Controller
         $old = Utilitas::where("customer_id", $data?->customer_id)
             ->where("type", Utilitas::TYPE_AIR_IRIGASI)
             ->where("tanggal", Carbon::parse($data?->tanggal)->subDay()->toDateString())->first();
-        return view("Pengecekkan.AirIrigasi.Form.index", compact('customers', 'data', 'old'));
+        return view("Pencatatan.AirIrigasi.Form.index", compact('customers', 'data', 'old'));
     }
 
     function saveData(Request $request)

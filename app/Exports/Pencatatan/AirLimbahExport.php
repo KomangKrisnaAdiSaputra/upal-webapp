@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports\Pengecekkan;
+namespace App\Exports\Pencatatan;
 
 use App\Models\Utilitas;
 use Carbon\Carbon;

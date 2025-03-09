@@ -1,4 +1,4 @@
-<table id="tabel-pengecekkan-al" class="table table-responsive-sm text-center min-w-full table-auto">
+<table id="tabel-pencatatan-al" class="table table-responsive-sm text-center min-w-full table-auto">
     <thead class="bg-gray-100">
         {{-- <tr class="text-center text-sm">
             <th class="align-middle p-2" rowspan="2">#</th>
@@ -38,7 +38,7 @@
                 <td>
                     <div class="d-flex justify-content-center">
                         <a href="#"
-                            class="btn btn-primary shadow btn-xs sharp mr-1"onclick="Modal('{{ route('pengecekkan.airlimbah.form', ['id' => $data->id]) }}', 'modal-lg', 'Edit Data')">
+                            class="btn btn-primary shadow btn-xs sharp mr-1"onclick="Modal('{{ route('pencatatan.airlimbah.form', ['id' => $data->id]) }}', 'modal-lg', 'Edit Data')">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </div>
@@ -48,7 +48,7 @@
     </tbody>
 </table>
 <script>
-    $('#tabel-pengecekkan-al').DataTable({
+    $('#tabel-pencatatan-al').DataTable({
         "pageLength": 10,
     });
 </script>

@@ -6,8 +6,8 @@ use App\Http\Controllers\Master\GroupController;
 use App\Http\Controllers\Master\UserManagerController;
 use App\Http\Controllers\MonitoringMinuteCounter\AirIrigasiController;
 use App\Http\Controllers\MonitoringMinuteCounter\AirLimbahController;
-use App\Http\Controllers\Pengecekkan\AirIrigasiController as PengecekkanAirIrigasiController;
-use App\Http\Controllers\Pengecekkan\AirLimbahController as PengecekkanAirLimbahController;
+use App\Http\Controllers\Pencatatan\AirIrigasiController as PencatatanAirIrigasiController;
+use App\Http\Controllers\Pencatatan\AirLimbahController as PencatatanAirLimbahController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post("save", "save")->name('profile.save.post');
   });
 
-  Route::prefix('pengecekkan')->name('pengecekkan')->group(function () {
+  Route::prefix('pencatatan')->name('pencatatan')->group(function () {
 
-    Route::prefix("airlimbah")->name(".airlimbah")->controller(PengecekkanAirLimbahController::class)->group(function () {
+    Route::prefix("airlimbah")->name(".airlimbah")->controller(PencatatanAirLimbahController::class)->group(function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');
@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
       Route::get("excel/{date}", "exportExcel")->name('.exportexcel');
     });
 
-    Route::prefix("airirigasi")->name(".airirigasi")->controller(PengecekkanAirIrigasiController::class)->group(function () {
+    Route::prefix("airirigasi")->name(".airirigasi")->controller(PencatatanAirIrigasiController::class)->group(function () {
       Route::get("/", "index");
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');

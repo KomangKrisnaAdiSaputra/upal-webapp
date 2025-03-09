@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Exports\Pengecekkan;
+namespace App\Exports\Pencatatan;
 
-use App\Http\Controllers\Pengecekkan\AirIrigasiController;
-use App\Models\Utilitas;
-use Carbon\Carbon;
+use App\Http\Controllers\Pencatatan\AirIrigasiController;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;

@@ -1,14 +1,25 @@
 @extends('layouts.main')
-@section('title', 'Check List Harian Pemakaian Air Irigasi')
+@section('title', 'Jasa Pengelolaan Air Limbah')
 
 @section('data')
     <div class="col-12">
-        <form action="#" id="form-filter" class="p-4 bg-white shadow rounded">
-            <div class="row g-3 align-items-center">
+        <form action="#" id="form-filter" class="p-3 bg-white shadow rounded">
+            <div class="row g-3 align-items-end">
                 <div class="col-md-4">
-                    <label class="form-label fw-medium" for="date">Tanggal</label>
-                    <input type="date" id="date" value="{{ Carbon\Carbon::today()->toDateString() }}"
-                        class="form-control py-2 px-3 border rounded-md">
+                    <label class="form-label fw-medium" for="date">Bulan</label>
+                    <select name="date" id="date" class="form-select">
+                        <option value="">-- Pilih Bulan --</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            @php
+                                $monthValue = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                $selected = $monthValue == date('m') ? 'selected' : ''; // Menandai bulan saat ini
+                            @endphp
+                            <option value="{{ date('Y') . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) . '-01' }}"
+                                {{ $selected }}>
+                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                        @endfor
+                    </select>
                 </div>
 
                 <div class="col-md-2">
@@ -19,23 +30,20 @@
             </div>
         </form>
 
-
         <div class="card mt-4">
             <div class="card-header">
-                <h4 class="card-title">Data Air Irigasi</h4>
+                <h4 class="card-title">Data Air Limbah</h4>
                 <div class="flex">
                     <a href="#" class="btn btn-rounded btn-success" onclick="exportExcel()">
                         Export Excel
                     </a>
-                    {{-- <a href="#" class="btn btn-rounded btn-danger" onclick="exportPdf()">
-                        Export PDF
-                    </a> --}}
                     <a href="#" class="btn btn-rounded btn-primary"
-                        onclick="Modal('{{ route('pengecekkan.airirigasi.form') }}', 'modal-lg', 'Tambah Data')">
+                        onclick="Modal('{{ route('pencatatan.airlimbah.form') }}', 'modal-lg', 'Tambah Data')">
                         Tambah Data
                     </a>
                 </div>
             </div>
+
             <div class="card-body">
 
                 <div class="table-responsive" id="data-tabel" style="overflow-x: hidden !important;" />
@@ -54,7 +62,7 @@
         function tabel(date = null) {
             $('#data-tabel').html(spinner());
 
-            $.get("{{ route('pengecekkan.airirigasi.gettabel') }}", {
+            $.get("{{ route('pencatatan.airlimbah.gettabel') }}", {
                 date
             }, function(data, status) {
                 setTimeout(() => {
@@ -68,16 +76,9 @@
             tabel($("#date").val());
         });
 
-        // function exportPdf() {
-        //     const date = $("#date").val();
-        //     let link = "route('pengecekkan.airirigasi.pdf', ['date' => '__DATE__'])";
-        //     link = link.replace('__DATE__', date);
-        //     window.open(link);
-        // }
-
         function exportExcel() {
             const date = $("#date").val();
-            let link = "{{ route('pengecekkan.airirigasi.exportexcel', ['date' => '__DATE__']) }}";
+            let link = "{{ route('pencatatan.airlimbah.exportexcel', ['date' => '__DATE__']) }}";
             link = link.replace('__DATE__', date);
             window.open(link);
         }

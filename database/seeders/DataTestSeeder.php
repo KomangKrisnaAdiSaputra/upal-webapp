@@ -83,7 +83,7 @@ class DataTestSeeder extends Seeder
     }
     // End Minute Air Irigasi
 
-    // Pengecekkan Air Limbah
+    // Pencatatan Air Limbah
     $month = Carbon::now()->startOfMonth()->isoFormat("M");
     $firstDayOfMonth = Carbon::now()->month($month)->startOfMonth();
     for ($i = 0; $i < ((int)$month - 1); $i++) {
@@ -112,9 +112,9 @@ class DataTestSeeder extends Seeder
         ]);
       }
     }
-    // End Pengecekkan Air Limbah
+    // End Pencatatan Air Limbah
 
-    // Pengecekkan Air Irigasi
+    // Pencatatan Air Irigasi
     $loop = 30;
     $today = Carbon::today()->toDateString();
     for ($i = 1; $i < $loop; $i++) {
@@ -142,6 +142,6 @@ class DataTestSeeder extends Seeder
         ]);
       }
     }
-    // End Pengecekkan Air Irigasi
+    // End Pencatatan Air Irigasi
   }
 }

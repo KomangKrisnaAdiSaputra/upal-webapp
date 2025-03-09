@@ -106,7 +106,7 @@
             body[key] = value;
         });
 
-        $.post("{{ route('pengecekkan.airirigasi.savedata.post') }}", {
+        $.post("{{ route('pencatatan.airirigasi.savedata.post') }}", {
             ...body
         }, function(data, status) {
             if (status == "success") {
@@ -117,11 +117,11 @@
                 const customer = customers.filter((item) => (item.id === body.customer_id))[0] ?? null;
 
                 if (body?.id == "") {
-                    if (qty == 1) $("#tabel-pengecekkan-ai tbody tr:first").remove();
-                    let link = "{{ route('pengecekkan.airirigasi.form', ['id' => '__ID__']) }}";
+                    if (qty == 1) $("#tabel-pencatatan-ai tbody tr:first").remove();
+                    let link = "{{ route('pencatatan.airirigasi.form', ['id' => '__ID__']) }}";
                     link = link.replace('__ID__', data.id);
 
-                    $("#tabel-pengecekkan-ai tbody").append(`
+                    $("#tabel-pencatatan-ai tbody").append(`
                            <tr>
                                 <td>${qty}</td>
                                 <td>${customer.nama}</td>

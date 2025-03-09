@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Pengecekkan;
+namespace App\Http\Controllers\Pencatatan;
 
-use App\Exports\Pengecekkan\AirLimbahExport;
+use App\Exports\Pencatatan\AirLimbahExport;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Utilitas;
@@ -16,14 +16,14 @@ class AirLimbahController extends Controller
 {
     function index()
     {
-        return view("Pengecekkan.AirLimbah.index");
+        return view("Pencatatan.AirLimbah.index");
     }
 
     function getTabel(Request $request)
     {
         $date = $request->date ?? Carbon::now()->startOfMonth();
         $datas = Utilitas::where("type", Utilitas::TYPE_AIR_LIMBAH)->whereDate("tanggal", $date)->get();
-        return view("Pengecekkan.AirLimbah.Partials.tabel", compact('datas'));
+        return view("Pencatatan.AirLimbah.Partials.tabel", compact('datas'));
     }
 
     function form(Request $request)
@@ -33,7 +33,7 @@ class AirLimbahController extends Controller
         }])->where("air_limbah", 1)->where("status", 1)->get();
 
         $data = Utilitas::find($request->id);
-        return view("Pengecekkan.AirLimbah.Form.index", compact('customers', 'data'));
+        return view("Pencatatan.AirLimbah.Form.index", compact('customers', 'data'));
     }
 
     function saveData(Request $request)

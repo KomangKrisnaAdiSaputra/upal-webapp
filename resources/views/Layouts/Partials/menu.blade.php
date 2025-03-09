@@ -29,21 +29,20 @@
                     </li>
                 </ul>
             </li> --}}
-            <li class="{{ Str::startsWith(request()->path(), 'pengecekkan/') ? 'mm-active' : '' }}">
+            <li class="{{ Str::startsWith(request()->path(), 'pencatatan/') ? 'mm-active' : '' }}">
                 <a class="has-arrow ai-icon " href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-archive"></i>
-                    <span class="nav-text">Pengecekkan</span>
+                    <span class="nav-text">Pencatatan</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li
-                        class="{{ Str::startsWith(request()->path(), 'pengecekkan/airlimbah') ? 'custom-active' : '' }}">
-                        <a href="{{ route('pengecekkan.airlimbah') }}">
+                    <li class="{{ Str::startsWith(request()->path(), 'pencatatan/airlimbah') ? 'custom-active' : '' }}">
+                        <a href="{{ route('pencatatan.airlimbah') }}">
                             Air Limbah
                         </a>
                     </li>
                     <li
-                        class="{{ Str::startsWith(request()->path(), 'pengecekkan/airirigasi') ? 'custom-active' : '' }}">
-                        <a href="{{ route('pengecekkan.airirigasi') }}">
+                        class="{{ Str::startsWith(request()->path(), 'pencatatan/airirigasi') ? 'custom-active' : '' }}">
+                        <a href="{{ route('pencatatan.airirigasi') }}">
                             Air Irigasi
                         </a>
                     </li>

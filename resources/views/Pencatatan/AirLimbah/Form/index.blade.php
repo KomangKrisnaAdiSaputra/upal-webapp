@@ -109,7 +109,7 @@
             body[key] = value;
         });
 
-        $.post("{{ route('pengecekkan.airlimbah.savedata.post') }}", {
+        $.post("{{ route('pencatatan.airlimbah.savedata.post') }}", {
             ...body
         }, function(data, status) {
             if (status == "success") {
@@ -119,11 +119,11 @@
 
                 if (body?.id == "") {
 
-                    if (qty == 1) $("#tabel-pengecekkan-al tbody tr:first").remove();
-                    let link = "{{ route('pengecekkan.airlimbah.form', ['id' => '__ID__']) }}";
+                    if (qty == 1) $("#tabel-pencatatan-al tbody tr:first").remove();
+                    let link = "{{ route('pencatatan.airlimbah.form', ['id' => '__ID__']) }}";
                     link = link.replace('__ID__', data.id);
 
-                    $("#tabel-pengecekkan-al tbody").append(`
+                    $("#tabel-pencatatan-al tbody").append(`
                         <tr>
                             <td>${qty}</td>
                             <td>${customer.nama}</td>
