@@ -15,6 +15,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::controller(DasboardController::class)->group(function () {
     Route::get("dashboard", "index")->name('dashboard.index');
+    Route::get("chartdata", "getChartData")->name('dashboard.chart.data');
   });
 
   Route::controller(ProfileController::class)->group(function () {
