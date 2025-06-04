@@ -45,7 +45,7 @@
             <div class="form-group col-md-4">
                 <label>Meteran Terakhir (M<sup>3</sup>)</label>
                 <input type="number" class="form-control" placeholder="meteran terakhir" name="nilai_terakhir"
-                    id="nilai_terakhir" value="{{ $data?->nilai ?? '' }}" onchange="nilai(this.value)">
+                    id="nilai_terakhir" value="{{ $data?->nilai ?? '' }}" onchange="nilai(this.value)" step="any">
             </div>
             <div class="form-group col-md-4">
                 <label>Meteran Sebelumnya (M<sup>3</sup>)</label>

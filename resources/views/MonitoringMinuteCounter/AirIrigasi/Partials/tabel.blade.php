@@ -44,7 +44,7 @@
                 </td>
                 <td class="p-2">
                     <input type="number" class="form-control form-control-sm w-24 text-right"
-                        name="nilai_{{ $key }}" value="{{ $data->nilai_terakhir }}">
+                        name="nilai_{{ $key }}" value="{{ $data->nilai_terakhir }}" step="any">
                 </td>
                 <td class="p-2 text-right">{{ $data->nilai_sebelumnya }}</td>
                 <td class="p-2">

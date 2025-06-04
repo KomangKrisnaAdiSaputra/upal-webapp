@@ -69,7 +69,7 @@
                                         class="form-control {{ $customer?->air_irigasi ?? false ? '' : 'custom-disabled' }}"
                                         id="harga_air_irigasi" name="harga_air_irigasi" placeholder="harga air irigasi"
                                         value="{{ $customer?->harga_air_irigasi ?? '' }}"
-                                        {{ $customer?->air_irigasi ?? false ? 'required' : '' }}>
+                                        {{ $customer?->air_irigasi ?? false ? 'required' : '' }} step="any">
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@
                                         class="form-control {{ $customer?->air_limbah ?? false ? '' : 'custom-disabled' }}"
                                         id="harga_air_limbah" name="harga_air_limbah" placeholder="harga air irigasi"
                                         value="{{ $customer?->harga_air_limbah ?? '' }}"
-                                        {{ $customer?->air_limbah ?? false ? 'required' : '' }}>
+                                        {{ $customer?->air_limbah ?? false ? 'required' : '' }} step="any">
                                 </div>
                             </div>
 

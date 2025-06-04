@@ -73,7 +73,7 @@
                     </span>
                 </label>
                 <input type="number" class="form-control" placeholder="Pemakaian" name="nilai"
-                    value="{{ $data?->nilai ?? '' }}" required autocomplete="off">
+                    value="{{ $data?->nilai ?? '' }}" required autocomplete="off" step="any">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
