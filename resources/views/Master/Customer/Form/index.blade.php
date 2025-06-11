@@ -32,7 +32,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="col-lg-6">
-                                    <select name="group_id" id="group_id" class="form-control select2">
+                                    <select name="group_id" id="group_id" class="form-control select2" required>
                                         <option value="">-- Pilih Group --</option>
                                         @foreach ($groups as $val)
                                             <option value="{{ $val['value'] }}"
@@ -62,7 +62,7 @@
                                     <label class="custom-control-label" for="air_irigasi">Air Irigasi</label>
                                 </div>
                                 <label class="col-lg-4 col-form-label" for="nama">Harga Air Irigasi
-                                    <span class="text-danger">*</span>
+                                    <!-- <span class="text-danger">*</span> -->
                                 </label>
                                 <div class="col-lg-6">
                                     <input type="number"
@@ -80,7 +80,7 @@
                                     <label class="custom-control-label" for="air_limbah">Air Limbah</label>
                                 </div>
                                 <label class="col-lg-4 col-form-label" for="nama">Harga Air Limbah
-                                    <span class="text-danger">*</span>
+                                    <!-- <span class="text-danger">*</span> -->
                                 </label>
                                 <div class="col-lg-6">
                                     <input type="number"
@@ -96,7 +96,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="col-lg-6">
-                                    <select name="type_perhitungan" id="type_perhitungan" class="form-control select2">
+                                    <select name="type_perhitungan" id="type_perhitungan" class="form-control select2" required>
                                         <option value="">-- Pilih Data --</option>
                                         @foreach ($typePerhitungan as $val)
                                             <option value="{{ $val->value }}"
@@ -158,20 +158,24 @@
             const airIrigasi = $("#harga_air_irigasi");
             if (isChecked) {
                 airIrigasi.removeClass("custom-disabled");
+                airIrigasi.prop('required', true);
             } else {
                 airIrigasi.val("");
                 airIrigasi.addClass("custom-disabled");
+                airIrigasi.prop('required', false);
             }
         });
 
         $("#air_limbah").on("click", function() {
             const isChecked = $(this).prop("checked");
-            const airIrigasi = $("#harga_air_limbah");
+            const airLimbah = $("#harga_air_limbah");
             if (isChecked) {
-                airIrigasi.removeClass("custom-disabled");
+                airLimbah.removeClass("custom-disabled");
+                airLimbah.prop('required', true);
             } else {
-                airIrigasi.val("");
-                airIrigasi.addClass("custom-disabled");
+                airLimbah.val("");
+                airLimbah.addClass("custom-disabled");
+                airLimbah.prop('required', false);
             }
         });
     </script>
