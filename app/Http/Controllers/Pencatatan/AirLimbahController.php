@@ -28,16 +28,27 @@ class AirLimbahController extends Controller
 
     function form(Request $request)
     {
-        $customers = Customer::with(['group', 'utilitas' => function ($utilitas) {
-            $utilitas->where("type", Utilitas::TYPE_AIR_LIMBAH)->whereDate("tanggal", Carbon::now()->startOfMonth());
-        }])->where("air_limbah", 1)->where("status", 1)->get();
-
         $data = Utilitas::find($request->id);
-        return view("Pencatatan.AirLimbah.Form.index", compact('customers', 'data'));
+        $date = Carbon::parse($request?->date ?? Carbon::today()->toDateString())->toDateString();
+
+        return view("Pencatatan.AirLimbah.Form.index", compact('data', 'date'));
+    }
+
+    function customers(Request $request)
+    {
+        $date = Carbon::parse($request?->date ?? Carbon::today()->toDateString())->toDateString();
+        $customers = Customer::with(['group', 'utilitas' => function ($utilitas) use ($date) {
+            $utilitas->where("type", Utilitas::TYPE_AIR_LIMBAH)->whereDate("tanggal", $date);
+        }])->where("air_limbah", 1)->where("status", 1)->get()->map(function ($item) use ($date) {
+            if (count($item->utilitas) == 0) return $item;
+            return null;
+        })->filter()->values();
+        return response()->json(compact("customers"), 200);
     }
 
     function saveData(Request $request)
     {
+        $date = Carbon::parse($request?->date ?? Carbon::now()->startOfMonth()->toDateString())->toDateString();
         DB::beginTransaction();
         try {
             if (isset($request->id) && $request->id != "") {
@@ -45,6 +56,7 @@ class AirLimbahController extends Controller
                 $utilitas->update([
                     'user_id' => auth()->user()->id,
                     'nilai' => (float)$request->nilai,
+                    'tanggal' => $date
                 ]);
             } else {
                 $utilitas = Utilitas::create([
@@ -52,8 +64,7 @@ class AirLimbahController extends Controller
                     'user_id' => auth()->user()->id,
                     'nilai' => (float)$request->nilai,
                     'type' => Utilitas::TYPE_AIR_LIMBAH,
-                    // 'status' => Utilitas::STATUS_MENUNGGU,
-                    'tanggal' => Carbon::now()->startOfMonth()->toDateString()
+                    'tanggal' => $date
                 ]);
             }
 

@@ -11,31 +11,27 @@
 <div class="basic-form">
     <form id="form-utilitas">
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label>Customer</label>
-                <input type="hidden" value='{{ json_encode($customers) }}' id="data_customers">
+                <input type="hidden" id="data_customers">
                 <input type="hidden" value='{{ $data?->id ?? '' }}' name="id">
 
                 @if (isset($data->id) && $data->id != '')
                     <input type="hidden" value='{{ $data?->customer_id ?? '' }}' name="customer_id">
                     <input type="text" class="form-control" value='{{ $data?->customer?->nama ?? '' }}' disabled>
                 @else
-                    <select name="customer_id" class="select2" onchange="getCustomer(this.value)"
-                        {{ isset($data->id) ? 'disabled' : '' }}>
-                        <option value="">-- Pilih Customer --</option>
-                        @foreach ($customers as $val)
-                            @if ((!$data?->id && count($val->utilitas) == 0) || $data?->id)
-                                <option value="{{ $val->id }}"
-                                    {{ ($data?->customer_id ?? '') == $val->id ? 'selected' : '' }}>
-                                    {{ $val->nama }}
-                                </option>
-                            @endif
-                        @endforeach
+                    <select name="customer_id" id="customer-list" class="select2" onchange="getCustomer(this.value)">
                     </select>
                 @endif
 
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
+                <label class="form-label fw-medium" for="date">Bulan</label>
+                <input type="month" name="date" id="date-select"
+                    value="{{ Carbon\Carbon::parse($data?->tanggal ?? Carbon\Carbon::now()->toDateString())->format('Y-m') }}"
+                    class="form-control py-2 px-3 border rounded-md">
+            </div>
+            <div class="form-group col-md-4">
                 <label>Tipe</label>
                 <input type="text" class="form-control" disabled placeholder="Tipe" name="tipe" id="tipe"
                     value="{{ $data?->customer?->group?->type ?? '' }}">
@@ -80,25 +76,72 @@
     </form>
 </div>
 <script>
-    $(document).ready(function() {
+    function initUtilitasForm() {
+        const dateSelect = document.getElementById('date-select');
+        const customerList = document.getElementById('customer-list');
+        const isEditMode = "{{ isset($data->id) && $data->id != '' ? '1' : '0' }}";
+
+        if (!dateSelect || !customerList) return;
+
+        // Inisialisasi select2
         $('.select2').select2({
             placeholder: "Pilih Customer",
             allowClear: true,
             theme: "bootstrap-5"
         });
-    });
 
-    function getCustomer(val) {
-        const customers = JSON.parse($("#data_customers").val());
-        const customer = customers.filter((item) => (item.id === val))[0] ?? null;
+        // Jika bukan edit mode, fetch customer berdasarkan tanggal
+        if (isEditMode !== '1') {
+            fetchCustomers(dateSelect.value);
 
-        $("#tipe").val(customer?.group?.type ?? "");
-        $("#harga_limbah").val(customer?.harga_air_limbah ?? "");
-        $("#harga_irigasi").val(customer?.harga_air_irigasi ?? "");
-        $("#type_perhitungan").val(customer?.type_perhitungan ?? "");
-        $("#perhitungan").val(customer?.perhitungan ?? "");
-        $("#nilai_str").html(customer?.nilai_str ?? "");
+            // Event saat ganti tanggal
+            dateSelect.addEventListener("change", function() {
+                fetchCustomers(this.value);
+            });
+        }
+
+        // Event ketika memilih customer
+        window.getCustomer = function(val) {
+            const customers = JSON.parse($("#data_customers").val());
+            const customer = customers.filter((item) => (item.id === val))[0] ?? null;
+
+            $("#tipe").val(customer?.group?.type ?? "");
+            $("#harga_limbah").val(customer?.harga_air_limbah ?? "");
+            $("#harga_irigasi").val(customer?.harga_air_irigasi ?? "");
+            $("#type_perhitungan").val(customer?.type_perhitungan ?? "");
+            $("#perhitungan").val(customer?.perhitungan ?? "");
+            $("#nilai_str").html(customer?.nilai_str ?? "");
+        };
+
+        // Fungsi untuk ambil customer dari backend
+        function fetchCustomers(date) {
+            customerList.setAttribute('disabled', 'disabled');
+
+            $.post("{{ route('pencatatan.airlimbah.customers.post') }}", {
+                date
+            }, function(data, status) {
+                const customers = data?.customers ?? [];
+                let options = "<option value=''>Pilih Customer</option>";
+
+                $("#data_customers").val(JSON.stringify(customers));
+
+                const selectedId = "{{ $data?->customer_id ?? '' }}";
+                customers.forEach((customer) => {
+                    const selected = selectedId == customer.id ? 'selected' : '';
+                    options += `<option value="${customer.id}" ${selected}>${customer.nama}</option>`;
+                });
+
+                customerList.innerHTML = options;
+                $('#customer-list').val(null).trigger('change');
+                customerList.removeAttribute('disabled');
+            });
+        }
     }
+
+    // Jalankan hanya saat modal muncul
+    $('#Modal').on('shown.bs.modal', function() {
+        initUtilitasForm();
+    });
 
     $("#form-utilitas").submit(function(e) {
         e.preventDefault();
@@ -113,38 +156,8 @@
             ...body
         }, function(data, status) {
             if (status == "success") {
-                const customers = JSON.parse($("#data_customers").val());
-                const qty = customers.filter((item) => (item.utilitas.length > 0)).length + 1;
-                const customer = customers.filter((item) => (item.id === body.customer_id))[0] ?? null;
+                tabel('{{ $date }}');
 
-                if (body?.id == "") {
-
-                    if (qty == 1) $("#tabel-pencatatan-al tbody tr:first").remove();
-                    let link = "{{ route('pencatatan.airlimbah.form', ['id' => '__ID__']) }}";
-                    link = link.replace('__ID__', data.id);
-
-                    $("#tabel-pencatatan-al tbody").append(`
-                        <tr>
-                            <td>${qty}</td>
-                            <td>${customer.nama}</td>
-                            <td>${customer.group.type}</td>
-                            <td class="text-right">${customer.harga_air_limbah ?? 0}</td>
-                            <td class="text-right">${customer.harga_air_irigasi ?? 0}</td>
-                            <td>${customer.perhitungan}</td>
-                            <td class="text-right">${customer.type_perhitungan}: ${body.nilai}</td>
-                            <td>
-                                <div class="d-flex justify-content-center">
-                                    <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1" 
-                                        onclick="Modal('${link}', 'modal-lg', 'Edit Data')">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
-                } else {
-                    $(`#nilai_${body.id}`).html(`${customer.type_perhitungan}: ${body.nilai}`);
-                }
             }
 
             $('#Modal').modal('hide');

@@ -37,8 +37,7 @@
                     <a href="#" class="btn btn-rounded btn-success" onclick="exportExcel()">
                         Export Excel
                     </a>
-                    <a href="#" class="btn btn-rounded btn-primary"
-                        onclick="Modal('{{ route('pencatatan.airlimbah.form') }}', 'modal-lg', 'Tambah Data')">
+                    <a href="#" class="btn btn-rounded btn-primary" onclick="handleCreate()">
                         Tambah Data
                     </a>
                 </div>
@@ -75,6 +74,14 @@
             e.preventDefault();
             tabel($("#date").val());
         });
+
+        function handleCreate() {
+            const date = $("#date").val();
+
+            let link = "{{ route('pencatatan.airlimbah.form', ['date' => '__DATE__']) }}";
+            link = link.replace('__DATE__', date);
+            Modal(link, 'modal-lg', 'Tambah Data')
+        }
 
         function exportExcel() {
             const date = $("#date").val();
