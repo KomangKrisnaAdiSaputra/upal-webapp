@@ -29,7 +29,7 @@
                 <td>
                     <div class="d-flex justify-content-center">
                         <a href="#"
-                            class="btn btn-primary shadow btn-xs sharp mr-1"onclick="Modal('{{ route('pencatatan.airirigasi.form', ['id' => $data->id]) }}', 'modal-lg', 'Edit Data')">
+                            class="btn btn-primary shadow btn-xs sharp mr-1"onclick="handleEdit('{{ $data->id }}')">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </div>
@@ -42,4 +42,16 @@
     $('#tabel-pencatatan-ai').DataTable({
         "pageLength": 10,
     });
+
+    function handleEdit(id) {
+        console.log("huhu");
+
+        const date = $("#date").val();
+
+        let link = `{!! route('pencatatan.airirigasi.form', ['date' => '__DATE__', 'id' => '__ID__']) !!}`;
+        link = link.replace('__DATE__', date);
+        link = link.replace('__ID__', id);
+
+        Modal(link, 'modal-lg', 'Edit Data')
+    }
 </script>

@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             User::create($user);
         }
         // End Create User
-
+        return;
         // Group
         $groups = [
             [

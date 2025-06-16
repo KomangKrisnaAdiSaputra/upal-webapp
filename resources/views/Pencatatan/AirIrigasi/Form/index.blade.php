@@ -12,9 +12,9 @@
 <div class="basic-form">
     <form id="form-utilitas">
         <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label>Customer</label>
-                <input type="hidden" value='{{ json_encode($customers) }}' id="data_customers">
+                <input type="hidden" id="data_customers">
                 <input type="hidden" value='{{ Carbon\Carbon::today()->toDateString() }}' id="today">
                 <input type="hidden" value='{{ Carbon\Carbon::today()->subDay()->toDateString() }}' id="yesterday">
                 <input type="hidden" value='{{ $data?->id ?? '' }}' name="id">
@@ -23,24 +23,16 @@
                     <input type="hidden" value='{{ $data?->customer_id ?? '' }}' name="customer_id">
                     <input type="text" class="form-control" value='{{ $data?->customer?->nama ?? '' }}' disabled>
                 @else
-                    <select name="customer_id" class="select2" onchange="getCustomer(this.value)"
-                        {{ isset($data->id) ? 'disabled' : '' }}>
-                        <option value="">-- Pilih Customer --</option>
-                        @foreach ($customers as $val)
-                            @php
-                                $today = Carbon\Carbon::today()->toDateString();
-                                $utilitas_today = $val->utilitas->where('tanggal', $today)->first();
-                            @endphp
-                            @if (!$utilitas_today)
-                                <option value="{{ $val->id }}"
-                                    {{ ($data?->customer_id ?? '') == $val->id ? 'selected' : '' }}>
-                                    {{ $val->nama }}
-                                </option>
-                            @endif
-                        @endforeach
+                    <select name="customer_id" id="customer-list" class="select2" onchange="getCustomer(this.value)"
+                        disabled>
                     </select>
                 @endif
-
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-medium" for="date">Tanggal</label>
+                <input type="date" name="date" id="date-select"
+                    value="{{ $data?->tanggal ?? Carbon\Carbon::today()->toDateString() }}"
+                    class="form-control py-2 px-3 border rounded-md">
             </div>
             <div class="form-group col-md-4">
                 <label>Meteran Terakhir (M<sup>3</sup>)</label>
@@ -69,87 +61,95 @@
     </form>
 </div>
 <script>
-    $(document).ready(function() {
+    function initUtilitasForm() {
+        const dateSelect = document.getElementById('date-select');
+        const customerList = document.getElementById('customer-list');
+        const isEditMode = "{{ isset($data->id) && $data->id != '' ? '1' : '0' }}";
+
+        if (!dateSelect || !customerList) return;
+
+        // Inisialisasi select2
         $('.select2').select2({
             placeholder: "Pilih Customer",
             allowClear: true,
             theme: "bootstrap-5"
         });
+
+        // Jika bukan edit mode, fetch customer berdasarkan tanggal
+        if (isEditMode !== '1') {
+            fetchCustomers(dateSelect.value);
+
+            // Event saat ganti tanggal
+            dateSelect.addEventListener("change", function() {
+                fetchCustomers(this.value);
+            });
+        }
+
+        // Event ketika memilih customer
+        window.getCustomer = function(val) {
+            const yesterday = $("#yesterday").val();
+            const customers = JSON.parse($("#data_customers").val());
+            const customer = customers.find(item => item.id == val) ?? null;
+            const nilai_terakhir = $("#nilai_terakhir").val();
+            const nilai_sebelumnya = customer?.utilitas?.find(item => item.tanggal == yesterday)?.nilai ?? 0;
+
+            $("#nilai_sebelumnya").val(nilai_sebelumnya);
+            $("#pemakaian").val(nilai_terakhir - nilai_sebelumnya);
+        };
+
+        // Event saat nilai diubah
+        window.nilai = function(val) {
+            const nilai_sebelumnya = $("#nilai_sebelumnya").val();
+            $("#pemakaian").val(val - nilai_sebelumnya);
+        };
+
+
+
+        // Fungsi untuk ambil customer dari backend
+        function fetchCustomers(date) {
+            customerList.setAttribute('disabled', 'disabled');
+
+            $.post("{{ route('pencatatan.airirigasi.customers.post') }}", {
+                date
+            }, function(data, status) {
+                const customers = data?.customers ?? [];
+                let options = "<option value=''>Pilih Customer</option>";
+
+                $("#data_customers").val(JSON.stringify(customers));
+
+                const selectedId = "{{ $data?->customer_id ?? '' }}";
+                customers.forEach((customer) => {
+                    const selected = selectedId == customer.id ? 'selected' : '';
+                    options += `<option value="${customer.id}" ${selected}>${customer.nama}</option>`;
+                });
+
+                customerList.innerHTML = options;
+                $('#customer-list').val(null).trigger('change');
+                customerList.removeAttribute('disabled');
+            });
+        }
+    }
+
+    // Jalankan hanya saat modal muncul
+    $('#Modal').on('shown.bs.modal', function() {
+        initUtilitasForm();
     });
 
-    function getCustomer(val) {
-        const today = $("#today").val();
-        const yesterday = $("#yesterday").val();
-        const customers = JSON.parse($("#data_customers").val());
-        const customer = customers.filter((item) => (item.id === val))[0] ?? null;
-        const nilai_terakhir = $("#nilai_terakhir").val();
-
-        const nilai_sebelumnya = customer?.utilitas?.filter((item) => (item.tanggal == yesterday))[0]?.nilai ?? 0;
-
-        $("#nilai_sebelumnya").val(nilai_sebelumnya);
-        $("#pemakaian").val(nilai_terakhir - nilai_sebelumnya);
-    }
-
-    function nilai(val) {
-        const nilai_sebelumnya = $("#nilai_sebelumnya").val();
-        $("#pemakaian").val(val - nilai_sebelumnya);
-    }
-
-    $("#form-utilitas").submit(function(e) {
+    // Submit form
+    $("#form-utilitas").off('submit').on("submit", function(e) {
         e.preventDefault();
         const formData = new FormData(this);
-        const body = [];
-        const today = $("#today").val();
-        const yesterday = $("#yesterday").val();
+        const body = {};
 
         formData.forEach((value, key) => {
             body[key] = value;
         });
 
-        $.post("{{ route('pencatatan.airirigasi.savedata.post') }}", {
-            ...body
-        }, function(data, status) {
-            if (status == "success") {
-                const customers = JSON.parse($("#data_customers").val());
-                const qty = customers.filter((item) => (item.utilitas.filter((ut) => ut.tanggal ===
-                        today)
-                    .length > 0)).length + 1;
-                const customer = customers.filter((item) => (item.id === body.customer_id))[0] ?? null;
-
-                if (body?.id == "") {
-                    if (qty == 1) $("#tabel-pencatatan-ai tbody tr:first").remove();
-                    let link = "{{ route('pencatatan.airirigasi.form', ['id' => '__ID__']) }}";
-                    link = link.replace('__ID__', data.id);
-
-                    $("#tabel-pencatatan-ai tbody").append(`
-                           <tr>
-                                <td>${qty}</td>
-                                <td>${customer.nama}</td>
-                                <td class="text-right">${body.nilai_terakhir}</td>
-                                <td class="text-right">${body.nilai_sebelumnya}</td>
-                                <td class="text-right">${body.pemakaian}</td>
-                                <td>${body.keterangan}</td>
-                                <td class="text-right">
-                                    ${body.user}
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-center">
-                                        <a href="#"
-                                            class="btn btn-primary shadow btn-xs sharp mr-1"onclick="Modal('${link}', 'modal-lg', 'Edit Data')">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                           </tr>
-                    `);
-                } else {
-                    $(`#nilai_terakhir_${body.id}`).html(body.nilai_terakhir);
-                    $(`#pemakaian_${body.id}`).html(body.nilai_terakhir - body.nilai_sebelumnya);
-                }
+        $.post("{{ route('pencatatan.airirigasi.savedata.post') }}", body, function(data, status) {
+            if (status === "success") {
+                tabel("{{ $date }}");
+                $('#Modal').modal('hide');
             }
-
-            $('#Modal').modal('hide');
         });
-
     });
 </script>

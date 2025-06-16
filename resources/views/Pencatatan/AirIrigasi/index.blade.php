@@ -30,8 +30,7 @@
                     {{-- <a href="#" class="btn btn-rounded btn-danger" onclick="exportPdf()">
                         Export PDF
                     </a> --}}
-                    <a href="#" class="btn btn-rounded btn-primary"
-                        onclick="Modal('{{ route('pencatatan.airirigasi.form') }}', 'modal-lg', 'Tambah Data')">
+                    <a href="#" class="btn btn-rounded btn-primary" onclick="handleCreate()">
                         Tambah Data
                     </a>
                 </div>
@@ -80,6 +79,14 @@
             let link = "{{ route('pencatatan.airirigasi.exportexcel', ['date' => '__DATE__']) }}";
             link = link.replace('__DATE__', date);
             window.open(link);
+        }
+
+        function handleCreate() {
+            const date = $("#date").val();
+
+            let link = "{{ route('pencatatan.airirigasi.form', ['date' => '__DATE__']) }}";
+            link = link.replace('__DATE__', date);
+            Modal(link, 'modal-lg', 'Tambah Data')
         }
     </script>
 @endsection

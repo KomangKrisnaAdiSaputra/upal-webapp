@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
       Route::get("gettabel", "getTabel")->name('.gettabel');
       Route::get("form", "form")->name('.form');
       Route::post("savedata", "saveData")->name('.savedata.post');
+      Route::post("customers", "customers")->name('.customers.post');
       Route::get("excel/{date}", "exportExcel")->name('.exportexcel');
     });
 
@@ -39,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
       Route::get("form", "form")->name('.form');
       Route::post("savedata", "saveData")->name('.savedata.post');
       // Route::get("pdf/{date}", "pdf")->name('.pdf');
+      Route::post("customers", "customers")->name('.customers.post');
       Route::get("excel/{date}", "exportExcel")->name('.exportexcel');
     });
   });
