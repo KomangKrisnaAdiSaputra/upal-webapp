@@ -63,6 +63,7 @@ class AirIrigasiController extends Controller
                         "volume" => $data->volume,
                         "ampere" => $data->ampere,
                         "keterangan" => $data->keterangan,
+                        "tanggal" => $request->date_filter ?? $this->today,
                     ]);
                 } else {
                     MinuteCounter::create([
@@ -76,7 +77,7 @@ class AirIrigasiController extends Controller
                         "volume" => $data->volume,
                         "ampere" => $data->ampere,
                         "keterangan" => $data->keterangan,
-                        "tanggal" => $this->today,
+                        "tanggal" => $request->date_filter ?? $this->today,
                     ]);
                 }
             }

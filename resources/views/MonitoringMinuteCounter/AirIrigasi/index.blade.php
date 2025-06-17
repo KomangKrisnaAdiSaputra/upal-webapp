@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <form action="#" id="form_air_limbah">
+                    <form action="#" id="form_air_irigasi">
                         <div class="d-flex align-items-center mb-4">
                             <!-- Tanggal Input Section -->
                             <div class="d-flex align-items-center me-4">
@@ -75,7 +75,7 @@
             });
         }
 
-        $("#form_air_limbah").submit(function(e) {
+        $("#form_air_irigasi").submit(function(e) {
             e.preventDefault();
             const formData = new FormData(this);
             const body = [];
